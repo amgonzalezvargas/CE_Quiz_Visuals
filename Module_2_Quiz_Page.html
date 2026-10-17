@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>DeepLearning.AI - Module 2 Quiz</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <!-- Tailwind CSS & DaisyUI via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#F65B66',
+            'primary-hover': '#DC2626',
+            'base-150': '#F1F5F9',
+            'base-content-secondary': '#64748B',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      max-width: 100vw;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .prose iframe {
+      border: 1px solid #CBD5E1 !important;
+      border-radius: 12px;
+      transition: height 0.25s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col w-full max-w-full">
+
+  <!-- Header -->
+  <header class="bg-base-100 border-b border-base-200 sticky top-0 z-50 h-14 sm:h-16 w-full shadow-sm">
+    <div class="max-w-5xl mx-auto flex h-full items-center justify-between px-3 sm:px-6">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="h-7 w-7 sm:h-8 sm:w-8 bg-[#F65B66] rounded-md flex items-center justify-center text-white font-bold text-base sm:text-lg">D</div>
+        <span class="font-bold text-base sm:text-lg tracking-tight">DeepLearning.AI</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="Shoe_Story_Quiz_Page.html" class="text-xs text-slate-500 hover:text-slate-800 hidden sm:inline-block">Module 1</a>
+        <span class="text-xs font-semibold text-primary hidden sm:inline-block">Module 2</span>
+        <a href="Module_3_Quiz_Page.html" class="text-xs text-slate-500 hover:text-slate-800 hidden sm:inline-block">Module 3</a>
+        <a href="Module_4_Quiz_Page.html" class="text-xs text-slate-500 hover:text-slate-800 hidden sm:inline-block">Module 4</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Quiz Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-6 lg:p-8 overflow-hidden">
+
+    <!-- Fluid Breadcrumb -->
+    <div class="mb-3 max-w-full overflow-hidden">
+      <div class="text-xs text-slate-500 flex flex-wrap items-center gap-1.5 leading-normal">
+        <span>Course: Context Engineering</span>
+        <span class="text-slate-400">&rsaquo;</span>
+        <span>Module 2</span>
+        <span class="text-slate-400">&rsaquo;</span>
+        <span class="font-semibold text-slate-800">Quiz: Agentic Search, Data Prep & Retrieval</span>
+      </div>
+    </div>
+
+    <!-- Quiz Question Card -->
+    <div class="card card-sm bg-base-100 border border-slate-200 shadow-sm my-2 sm:my-4 max-w-full overflow-hidden">
+      <div class="card-body p-3.5 sm:p-6">
+        
+        <!-- Question Points & Title Bar -->
+        <div class="mb-3 flex justify-between items-center gap-2 flex-wrap">
+          <p class="font-semibold text-sm sm:text-base text-slate-900">Case Study & Quiz: Debugging FreshCart</p>
+          <div class="flex items-center gap-x-1">
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">0/30 points</span>
+          </div>
+        </div>
+
+        <!-- 1. Story Narrative -->
+        <article class="mb-4 text-base-content prose max-w-none">
+          <p class="text-slate-800 font-normal leading-relaxed text-xs sm:text-[15px] mb-3">
+            A backend software engineer at <strong>FreshCart</strong> investigates an urgent bug where customers checkout with out-of-stock items. The engineer deploys an autonomous coding agent with access to three data sources: a <strong>Vector Store</strong> (Chroma code & policies), <strong>Filesystem Event Logs</strong> (regex search), and a <strong>Relational Database</strong> (SQL query tool).
+          </p>
+          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-4">
+            Explore the three failure paths below to observe how ambiguous tool definitions lead to semantic mismatches, how naive character chunking severs class definitions, and how unconstrained SQL queries flood the context window.
+          </p>
+
+          <!-- 2. The Embedded Iframe -->
+          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
+            <iframe 
+              id="explorer-iframe" 
+              src="Module_2_Explorer.html" 
+              width="100%" 
+              height="620" 
+              style="width: 100%; min-width: 100%; max-width: 100%; border: 0; display: block;"
+              title="Module 2 Agentic Search Explorer"
+              loading="lazy">
+            </iframe>
+          </div>
+        </article>
+
+        <!-- 3. The Questions & Answers -->
+        <div class="mt-2 space-y-6">
+
+          <!-- Question 1 -->
+          <div>
+            <div class="mb-2 flex justify-between items-center gap-2">
+              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 1:</p>
+              <span class="text-xs text-slate-500">10 points</span>
+            </div>
+            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+              In Failure Path 1, why did the coding agent select the wrong tool and retrieve low-level inventory code instead of the official policy document?
+            </p>
+            <ol class="space-y-1">
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q1-answers" value="A" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It selected a lexical search tool: because ambiguous tool definitions led the model to rely on exact keyword matching rather than conceptual meaning.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q1-answers" value="B" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It selected a semantic search tool: because vector embeddings always prioritize raw variable names over natural language text.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q1-answers" value="C" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It selected a relational database tool: because policy documents are permanently stored inside SQL database tables.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q1-answers" value="D" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It selected a regex pattern matcher: because policy files require regular expression formatting to be read by the model.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+            </ol>
+            <div id="q1-msg" class="hidden text-xs mt-2 px-3 py-2 rounded-lg"></div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="border-t border-slate-100 pt-5">
+            <div class="mb-2 flex justify-between items-center gap-2">
+              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 2:</p>
+              <span class="text-xs text-slate-500">10 points</span>
+            </div>
+            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+              In Failure Path 2, why did naive fixed-character chunking cause the coding agent to report that the <code>InventoryItem</code> model lacked an <code>aisle_id</code> field?
+            </p>
+            <ol class="space-y-1">
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q2-answers" value="A" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It split the class across boundaries: because naive character splitting ignores code syntax and severs definitions mid-block, isolating critical properties into lower-ranked chunks.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q2-answers" value="B" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It indexed the entire file as a single vector: because embedding models require complete source files to be represented as a single high-dimensional point.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q2-answers" value="C" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It applied an Abstract Syntax Tree parser: because AST parsers deliberately strip out database field declarations to save token space.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q2-answers" value="D" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It removed all metadata tags: because metadata filtering deletes class properties during the vector store ingestion phase.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+            </ol>
+            <div id="q2-msg" class="hidden text-xs mt-2 px-3 py-2 rounded-lg"></div>
+          </div>
+
+          <!-- Question 3 -->
+          <div class="border-t border-slate-100 pt-5">
+            <div class="mb-2 flex justify-between items-center gap-2">
+              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 3:</p>
+              <span class="text-xs text-slate-500">10 points</span>
+            </div>
+            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+              In Failure Path 3, how did generating an unconstrained SQL query without filters or row limits impact the agent's performance?
+            </p>
+            <ol class="space-y-1">
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q3-answers" value="A" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It flooded the context window: because returning excessive historical records overwhelmed the token limit and caused reasoning degradation.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q3-answers" value="B" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It triggered a syntax compilation error: because SQL databases automatically reject queries that omit date parameters.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q3-answers" value="C" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It activated the tool registry: because large query results force the system to unload active tool descriptions.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+              <li class="list-none">
+                <div class="p-2 sm:p-2.5 rounded-lg hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                  <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
+                    <input type="radio" name="q3-answers" value="D" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
+                    <div class="inline-flex items-center flex-1 min-w-0">
+                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">It executed a hybrid search fusion: because large data payloads automatically combine BM25 and vector embedding scores.</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+            </ol>
+            <div id="q3-msg" class="hidden text-xs mt-2 px-3 py-2 rounded-lg"></div>
+          </div>
+
+        </div>
+
+        <!-- Submit Bar inside Card -->
+        <div class="card-actions justify-between items-center mt-6 pt-4 border-t border-slate-100 gap-3">
+          <span id="quiz-status" class="text-xs text-slate-400">0 of 3 questions completed</span>
+          <button type="button" onclick="evaluateQuiz()" class="btn btn-sm btn-primary bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-6">
+            Submit Answer
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-base-100 border-t border-base-200 py-6 text-center text-xs text-slate-400">
+    &copy; DeepLearning.AI &middot; Context Window Explorer Embedded Quiz Demo
+  </footer>
+
+  <script>
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'setHeight' && typeof event.data.height === 'number') {
+        const iframe = document.getElementById('explorer-iframe');
+        if (iframe) {
+          const newH = Math.max(540, event.data.height);
+          iframe.style.height = newH + 'px';
+        }
+      }
+    });
+
+    const correct = { 1: 'A', 2: 'A', 3: 'A' };
+    const feedback = {
+      1: "A lexical search tool matches terms based strictly on exact words or keywords. When tool descriptions lack clear boundaries, the model can misjudge which search strategy aligns with the user's conceptual intent, leading it to query syntax repositories instead of documentation.",
+      2: "Splitting code solely by character count without respecting language syntax breaks structural boundaries. When a class is split arbitrarily, its associated properties can fall into separate, adjacent chunks that fail to rank adequately during retrieval.",
+      3: "Unfiltered queries against structured databases can return massive volumes of unnecessary data. When all of that output is carried forward into the message history, it fills the context window and degrades model performance."
+    };
+
+    function evaluateQuiz() {
+      let score = 0;
+      let count = 0;
+      for (let i = 1; i <= 3; i++) {
+        const sel = document.querySelector(`input[name="q${i}-answers"]:checked`);
+        const msg = document.getElementById(`q${i}-msg`);
+        if (sel) {
+          count++;
+          if (sel.value === correct[i]) {
+            score += 10;
+            msg.className = "text-xs mt-2 px-3 py-2 rounded-lg bg-emerald-50 text-emerald-800 block border border-emerald-200";
+            msg.innerHTML = `<strong>✓ Correct!</strong> ${feedback[i]}`;
+          } else {
+            msg.className = "text-xs mt-2 px-3 py-2 rounded-lg bg-rose-50 text-rose-800 block border border-rose-200";
+            msg.innerHTML = `<strong>✗ Incorrect.</strong> The correct answer was option <strong>${correct[i]}</strong>. ${feedback[i]}`;
+          }
+        } else {
+          msg.className = "text-xs mt-2 px-3 py-1.5 rounded bg-amber-50 text-amber-800 block border border-amber-200";
+          msg.textContent = "Please select an answer.";
+        }
+      }
+      document.getElementById('quiz-status').textContent = `${score}/30 points (${count} of 3 answered)`;
+    }
+  </script>
+
+</body>
+</html>

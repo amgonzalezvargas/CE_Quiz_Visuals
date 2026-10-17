@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Module 3: Context Management Explorer</title>
+  <!-- Google Fonts: Inter, Poppins, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #F65B66;
+      --primary-hover: #E04854;
+      --primary-light: #FFF1F2;
+      --secondary: #0891B2;
+      --secondary-light: #ECFEFF;
+      --secondary-content: #CFFAFE;
+      --accent: #0284C7;
+      --accent-light: #E0F2FE;
+      --accent-content: #BAE6FD;
+      --success: #15803D;
+      --success-light: #DCFCE7;
+      --success-content: #BBF7D0;
+      --warning: #C2410C;
+      --warning-light: #FFEDD5;
+      --warning-content: #FED7AA;
+      --info: #7E22CE;
+      --info-light: #F3E8FF;
+      --info-content: #E9D5FF;
+      --base-100: #FFFFFF;
+      --base-150: #F8FAFC;
+      --base-200: #F1F5F9;
+      --base-300: #E2E8F0;
+      --ink: #0F172A;
+      --muted: #64748B;
+      --slate-400: #94A3B8;
+      --font-headline: 'Poppins', system-ui, -apple-system, sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+      --term-bg: #0F172A;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    html, body {
+      background: var(--base-150);
+      color: var(--ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      height: auto;
+      max-width: 100vw;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    .m1gp-root {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      background: var(--base-100);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .m1gp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px 22px 14px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--base-200);
+    }
+
+    .m1gp-title-box h2 {
+      font-family: var(--font-headline);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .m1gp-title-box p {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .m1gp-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .m1gp-tab {
+      height: 30px;
+      padding: 0 13px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--base-300);
+      background: var(--base-100);
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .m1gp-tab:hover {
+      background: var(--base-150);
+      border-color: var(--slate-400);
+    }
+
+    .m1gp-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(246,91,102,0.3);
+    }
+
+    .m1gp-meter-wrap {
+      padding: 16px 22px 14px;
+      background: var(--base-150);
+      border-bottom: 1px solid var(--base-200);
+    }
+
+    .m1gp-meter-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .m1gp-meter-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .m1gp-meter-stats {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .m1gp-meter-stats strong {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .m1gp-track {
+      position: relative;
+      height: 12px;
+      background: var(--base-200);
+      border-radius: var(--radius-full);
+      border: 1px solid var(--base-300);
+      margin-bottom: 18px;
+    }
+
+    .m1gp-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: var(--radius-full);
+      background: var(--success);
+      width: 0.4%;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .m1gp-ecl-marker {
+      position: absolute;
+      top: -4px;
+      bottom: -4px;
+      left: 80%;
+      width: 2px;
+      background: var(--primary);
+      z-index: 2;
+    }
+
+    .m1gp-ecl-label {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 80%;
+      transform: translateX(-50%);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .m1gp-main {
+      display: flex;
+      padding: 20px 22px;
+      gap: 24px;
+      min-height: 480px;
+    }
+
+    .m1gp-tl {
+      width: 48%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .m1gp-scroll {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .m1gp-phase {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 14px 0 4px;
+    }
+
+    .m1gp-phase:first-child { padding-top: 0; }
+
+    .m1gp-divider {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0 6px;
+    }
+
+    .m1gp-divider-line {
+      flex: 1;
+      border-top: 1.5px dashed var(--base-300);
+    }
+
+    .m1gp-divider-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--muted);
+    }
+
+    .m1gp-divider.danger .m1gp-divider-text { color: var(--primary); }
+    .m1gp-divider.danger .m1gp-divider-line { border-color: #FECDD3; }
+
+    .m1gp-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      text-align: left;
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: var(--base-150);
+      box-shadow: var(--shadow-sm);
+      font-family: var(--font-body);
+      transition: all 0.15s ease;
+    }
+
+    .m1gp-row:hover { background: var(--base-200); }
+    .m1gp-row.selected {
+      border-color: #06B6D4;
+      background: #ECFEFF;
+      box-shadow: 0 0 0 1px #06B6D4;
+    }
+    .m1gp-row.selected.danger-row {
+      border-color: var(--primary);
+      background: #FFF1F2;
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .m1gp-row-label {
+      flex: 1;
+      min-width: 0;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .m1gp-flag {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+      background: var(--primary);
+      color: #fff;
+    }
+    .m1gp-flag.green { background: #10B981; }
+
+    .m1gp-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+
+    .cat-system  { background: #F1F5F9; color: #0F172A; }
+    .cat-user    { background: var(--secondary-content); color: #0E7490; }
+    .cat-tdesc   { background: var(--warning-content); color: #C2410C; }
+    .cat-toutput { background: var(--info-content); color: #7E22CE; }
+    .cat-reason  { background: var(--accent-content); color: #0369A1; }
+    .cat-memory  { background: var(--success-content); color: #15803D; }
+    .cat-hook    { background: #FEF3C7; color: #B45309; }
+
+    .m1gp-tok-delta {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .m1gp-inline {
+      display: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.6;
+      background: var(--term-bg);
+      color: #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      white-space: pre-wrap;
+      margin: 4px 0 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-left: 3px solid #06B6D4;
+    }
+
+    .m1gp-detail {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--term-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-md);
+      color: #E2E8F0;
+    }
+
+    .m1gp-detail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #334155;
+      flex-shrink: 0;
+    }
+
+    .m1gp-detail-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #F8FAFC;
+    }
+
+    .m1gp-detail-content {
+      flex: 1;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #CBD5E1;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      max-height: 480px;
+    }
+
+    .m1gp-caption-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      background: var(--secondary-light);
+      border-top: 1px solid #BAE6FD;
+      font-size: 13px;
+      font-weight: 500;
+      color: #0369A1;
+    }
+    .m1gp-caption-bar.warn {
+      background: var(--primary-light);
+      border-top-color: #FECDD3;
+      color: #BE123C;
+    }
+
+    .m1gp-dock {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      background: var(--base-100);
+      border-top: 1px solid var(--base-200);
+    }
+
+    .m1gp-stepper-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .m1gp-btn-text {
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 0;
+    }
+    .m1gp-btn-text:hover { color: #0E7490; text-decoration: underline; }
+
+    .m1gp-btn-next {
+      height: 40px;
+      padding: 0 22px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(246,91,102,0.35);
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+    .m1gp-btn-next:hover { background: var(--primary-hover); }
+    .m1gp-btn-next:disabled { background: var(--slate-400); cursor: default; box-shadow: none; }
+
+    @media (max-width: 767px) {
+      .m1gp-header {
+        padding: 12px 14px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .m1gp-title-box h2 { font-size: 17px; }
+      .m1gp-tabs { width: 100%; justify-content: flex-start; gap: 6px; }
+      .m1gp-tab { flex: 1 1 auto; justify-content: center; padding: 0 8px; font-size: 11px; height: 28px; }
+      .m1gp-meter-wrap { padding: 10px 14px 12px; }
+      .m1gp-main { flex-direction: column !important; gap: 12px !important; padding: 12px 14px 16px !important; }
+      .m1gp-tl { width: 100% !important; max-width: 100% !important; }
+      .m1gp-row { padding: 8px 10px; gap: 6px; }
+      .m1gp-detail { display: none !important; }
+      .m1gp-inline { display: block !important; }
+      .m1gp-dock {
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        background: var(--base-100);
+        border-top: 1px solid var(--base-300);
+        padding: 10px 14px !important;
+        gap: 8px;
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+      }
+      .m1gp-stepper-actions { gap: 8px; }
+      .m1gp-btn-next { height: 36px; padding: 0 16px; font-size: 13px; }
+    }
+
+    .app-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .app-modal.open { opacity: 1; pointer-events: auto; }
+    .app-modal-card {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+    .app-modal-card p { font-size: 14px; line-height: 1.5; color: var(--ink); }
+    .app-modal-btn {
+      align-self: flex-end;
+      height: 36px;
+      padding: 0 18px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="m1gp-root">
+    
+    <!-- Top Explorer Header -->
+    <div class="m1gp-header">
+      <div class="m1gp-title-box">
+        <h2>Module 3: Context Management Explorer (Movie-Finder)</h2>
+        <p>Inspect truncation re-search loops, compaction drift, and lossy sentence extraction.</p>
+      </div>
+
+      <div class="m1gp-tabs" id="pillsBar">
+        <button class="m1gp-tab active" onclick="switchPath(0)">
+          <i class="ri-delete-bin-6-line"></i> Path 1: Truncation Loop
+        </button>
+        <button class="m1gp-tab" onclick="switchPath(1)">
+          <i class="ri-contract-left-right-line"></i> Path 2: Compaction Drift
+        </button>
+        <button class="m1gp-tab" onclick="switchPath(2)">
+          <i class="ri-filter-line"></i> Path 3: Aggressive Extraction
+        </button>
+      </div>
+    </div>
+
+    <!-- Token Meter Gauge -->
+    <div class="m1gp-meter-wrap" id="meterWrap">
+      <div class="m1gp-meter-labels">
+        <span class="m1gp-meter-title">Context Window Usage</span>
+        <span class="m1gp-meter-stats">
+          <strong id="tokenTotalText">580</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.5%</span>
+        </span>
+      </div>
+      <div class="m1gp-track">
+        <div class="m1gp-fill" id="trackFill"></div>
+        <div class="m1gp-ecl-marker"></div>
+        <div class="m1gp-ecl-label">Effective context length (80%)</div>
+      </div>
+    </div>
+
+    <!-- Main Two-Column Area -->
+    <div class="m1gp-main">
+      <div class="m1gp-tl">
+        <div class="m1gp-scroll" id="timelineContainer"></div>
+      </div>
+
+      <div class="m1gp-detail" id="desktopDetail">
+        <div class="m1gp-detail-head">
+          <div class="m1gp-detail-title">
+            <i class="ri-terminal-box-line text-cyan-400"></i>
+            <span id="detailBadgeLabel">SYSTEM &middot; System prompt</span>
+          </div>
+          <span class="text-xs text-slate-400 font-mono" id="detailTokens">+580 tokens</span>
+        </div>
+        <div class="m1gp-detail-content" id="detailContent">
+          Loading...
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Pedagogical Caption Bar -->
+    <div class="m1gp-caption-bar" id="captionBanner">
+      <i class="ri-information-line text-cyan-600" id="captionIcon"></i>
+      <span id="captionText">Inspecting initial setup.</span>
+    </div>
+
+    <!-- Stepper Controls Bar -->
+    <div class="m1gp-dock">
+      <div class="m1gp-stepper-actions">
+        <button class="m1gp-btn-text" onclick="resetExplorer()">
+          <i class="ri-restart-line"></i> Reset
+        </button>
+        <button class="m1gp-btn-text" onclick="showAllSteps()">
+          <i class="ri-skip-forward-line"></i> Show all
+        </button>
+      </div>
+      <button class="m1gp-btn-next" id="btnNext" onclick="nextStep()">Next step</button>
+    </div>
+
+  </div>
+
+  <div class="app-modal" id="modalEl" onclick="closeModal()">
+    <div class="app-modal-card" onclick="event.stopPropagation()">
+      <div class="flex items-center gap-2 text-primary font-bold text-sm">
+        <i class="ri-alert-line text-lg"></i>
+        <span>Notice</span>
+      </div>
+      <p id="modalText">Alert note</p>
+      <button class="app-modal-btn" onclick="closeModal()">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    // =============================================================================
+    // MODULE 3 DATASETS: MOVIE-FINDER CONTEXT MANAGEMENT SCENARIOS
+    // =============================================================================
+
+    const PATH_1 = {
+      name: 'Path 1: Truncation Re-Search Loop',
+      limit: 128000,
+      effectiveLength: 102400,
+      blocks: [
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM', label: 'System prompt: CineComp Research Agent', tokens: 580,
+          content: `You are an autonomous research assistant specialized in tracking down obscure cinema from fragmented clues.\n\nTools:\n  - hybrid_search(query: string): Search CineCompPlus database\n  - scratchpad_write(key, data): Save external notes`,
+          caption: 'Agent system prompt initialized with hybrid search tool.' },
+
+        { cat: 'user', badge: 'USER', label: 'User prompt: 4 Childhood Clues', tokens: 160,
+          content: `User: "Help me find this animated movie from my childhood:\n1. Grumpy talking brass pocket watch\n2. Steam train across suspended sky-bridges\n3. Won European animation jury prize before 1998\n4. Score by former jazz trumpeter"`,
+          caption: 'User provides four fragmented memory clues.' },
+
+        { cat: 'tdesc', badge: 'TOOL DEF', label: 'Tool definitions: hybrid_search', tokens: 420,
+          content: `hybrid_search(query: string, limit: int = 5)\n  "Combines BM25 and Chroma vector search using Reciprocal Rank Fusion."`,
+          caption: 'Harness provides hybrid search across CineCompPlus entertainment corpus.' },
+
+        { divider: true, text: 'Turn 1: Festival Clue Retrieved' },
+
+        { phase: 'TURN 1 · FESTIVAL SEARCH', cat: 'toutput', badge: 'TOOL OUT', label: 'Tool output: doc_5 retrieved', tokens: 4600, flagText: 'FOUND CLUE 3',
+          content: `[hybrid_search] query: "European film festival animation jury prize before 1998"\nResult: doc_5 (Annecy Festival Retrospective 1990-1999)\n"...In 1995, the prestigious Jury Prize was awarded to 'The Chrono Train' (Le Train du Temps) for its pioneering hand-painted background style..."`,
+          caption: 'Early turn retrieves doc_5: confirms European jury prize won in 1995.' },
+
+        { cat: 'reason', badge: 'REASON', label: 'Reasoning: Clue 3 verified', tokens: 450,
+          content: `Confirmed European jury prize clue from doc_5: Annecy Festival Jury Prize 1995 ('The Chrono Train').\nNow proceeding to search for Clue 4: former jazz trumpeter musical score.`,
+          caption: 'Agent records 1995 festival prize and transitions to soundtrack search.' },
+
+        { divider: true, danger: true, text: 'Context budget threshold: brute-force truncation hook fires' },
+
+        { phase: 'TURN 2-4 · COMPOSER SEARCHES', cat: 'toutput', badge: 'TOOL OUT', label: 'Tool outputs: 3 Broad Searches', tokens: 82000, flagText: 'PROMPT BLOAT',
+          content: `[3 successive hybrid_search calls for jazz trumpeter composer across international discographies...]\n[Raw turn logs and full-text articles accumulate 82,000 tokens of context.]`,
+          caption: 'Successive multi-turn composer searches inflate context to 88,210 tokens.' },
+
+        { cat: 'hook', badge: 'TRUNCATION', label: 'Harness Hook: Brute-Force Turn Dropping', tokens: -5050, flagText: 'DOC_5 DROPPED', modal: true,
+          content: `[HARNESS TRUNCATION HOOK]\nToken budget limit reached. Sliding window active.\nACTION: Dropping oldest turn history (Turn 1: doc_5 and festival reasoning deleted from context window).`,
+          caption: 'Brute-Force Truncation: Turn 1 is purged without offloading facts to scratchpad!' },
+
+        { divider: true, danger: true, text: 'Candidate verification: missing knowledge gap' },
+
+        { phase: 'TURN 5 · CANDIDATE VERIFICATION', cat: 'reason', badge: 'REASON', label: 'Reasoning: Memory void check', tokens: 620, flagText: 'RE-SEARCH LOOP', modal: true,
+          content: `Final Candidate: 'The Chrono Train' (1995).\nChecking context window to cross-reference the European festival prize requirement...\nContext check: No record of European festival prize found in context window.\nI must search for the European festival jury prize to confirm eligibility.`,
+          caption: 'Knowledge Void: Having lost Turn 1, the agent assumes it never searched for the festival prize!' },
+
+        { phase: 'TURN 6 · REDUNDANT EXECUTION', cat: 'toutput', badge: 'TOOL OUT', label: 'Tool output: Redundant hybrid_search', tokens: 4600, flagText: 'DUPLICATE WORK',
+          content: `[hybrid_search] query: "Chrono Train European animation festival jury prize 1995"\nResult: doc_5 re-retrieved!\n(Tokens wasted, latency doubled, duplicate doc re-enters context).`,
+          caption: 'Indiscriminate truncation forced the agent into a wasteful, duplicate search loop!' }
+      ]
+    };
+
+    const PATH_2 = {
+      name: 'Path 2: Compaction Drift (Lost Dead-End)',
+      limit: 128000,
+      effectiveLength: 102400,
+      blocks: [
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM', label: 'System prompt: Research Agent', tokens: 580,
+          content: `You are an autonomous research agent for CineComp.\n\nContext Management:\n  - Context compaction active at 70% threshold\n  - Track clues and candidate titles`,
+          caption: 'Agent configured with an automatic compaction hook.' },
+
+        { cat: 'user', badge: 'USER', label: 'User prompt: Steam train clue', tokens: 150,
+          content: `User: "Find the animated movie with a steam train travelling across suspended sky-bridges."`,
+          caption: 'Agent investigates the steam train clue.' },
+
+        { cat: 'tdesc', badge: 'TOOL DEF', label: 'Tool definitions: hybrid_search', tokens: 420,
+          content: `hybrid_search(query: string)\n  "Query animated film database."`,
+          caption: 'Search tool available.' },
+
+        { divider: true, text: 'Dead-end exploration: 1990s Japanese Anime' },
+
+        { phase: 'TURN 1 · ANIME SEARCH', cat: 'toutput', badge: 'TOOL OUT', label: 'Tool output: Anime train films', tokens: 6200, flagText: 'DISTRACTOR',
+          content: `[hybrid_search] query: "1990s animated movie steam train sky-bridge flying train"\nRetrieved 5 titles: Galaxy Express 999, Night on the Galactic Railroad, etc.`,
+          caption: 'Agent explores 1990s Japanese anime candidates.' },
+
+        { cat: 'reason', badge: 'REASON', label: 'Reasoning: Explicitly abandoned dead-end', tokens: 850, flagText: 'PATH ABANDONED',
+          content: `Evaluation:\n- Galaxy Express 999: features steam train, but NO brass pocket watch; not a European festival prize.\n- Night on Galactic Railroad: wrong composer, no brass watch.\n\nConclusion: The 1990s Japanese anime train path is an INVALID DEAD-END. Rule out all Japanese anime candidates.`,
+          caption: 'Agent explicitly records the negative constraint: Japanese anime is a dead end.' },
+
+        { divider: true, danger: true, text: 'Threshold crossed: compaction hook fires with lossy prompt' },
+
+        { phase: 'TURN 2 · COMPACTION HOOK', cat: 'hook', badge: 'COMPACT DRIFT', label: 'Harness Hook: Model Compaction', tokens: -5800, flagText: 'DRIFT', modal: true,
+          content: `[HARNESS COMPACTION HOOK EXECUTED]\nCompaction model prompt lacked negative constraint instructions.\n\nResulting Summary Handoff:\n"## Session Progress:\n- User is seeking an obscure animated film with a steam train motif.\n- Searched several 1990s animated films and identified potential train motifs.\n- Next step: evaluate candidate soundtracks."\n(CRITICAL DETAIL LOST: Japanese anime dead-end completely omitted!)`,
+          caption: 'Compaction Drift: High-level summary drops the vital negative constraint!' },
+
+        { divider: true, danger: true, text: 'Roadblock encountered: repeating the abandoned path' },
+
+        { phase: 'TURN 3 · AMBIGUITY', cat: 'user', badge: 'USER', label: 'User prompt: Clarification roadblock', tokens: 110,
+          content: `User: "I think the train had distinctive brass wheels too."`,
+          caption: 'User adds extra train description.' },
+
+        { cat: 'reason', badge: 'REASON', label: 'Reasoning: Misled by compacted summary', tokens: 720, flagText: 'REPEAT ERROR', modal: true,
+          content: `Reviewing compact session summary:\nSummary notes: "identified potential train motifs in 1990s animated films."\nSince train motifs exist in 1990s Japanese anime, let me query anime archives for brass wheels on trains.`,
+          caption: 'Having lost the record that anime was ruled out, agent repeats the failed path!' },
+
+        { phase: 'TURN 4 · REPEATED SEARCH', cat: 'toutput', badge: 'TOOL OUT', label: 'Tool output: Re-querying anime database', tokens: 4800, flagText: 'WASTED WORK',
+          content: `[hybrid_search] query: "Japanese anime 1990s train brass wheels"\n(Agent re-spends time and tokens exploring the exact dead end it already ruled out!)`,
+          caption: 'Compaction Drift caused the agent to recycle already-refuted hypotheses.' }
+      ]
+    };
+
+    const PATH_3 = {
+      name: 'Path 3: Aggressive Extraction (Local vs Global)',
+      limit: 128000,
+      effectiveLength: 102400,
+      blocks: [
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM', label: 'System prompt: Movie Agent', tokens: 580,
+          content: `You are a film research assistant.\n\nHarness Configuration:\n  - LLM Judge sentence-level extraction hook active to reduce context bloat`,
+          caption: 'Extraction hook active: extracts only relevant sentences before context insertion.' },
+
+        { cat: 'user', badge: 'USER', label: 'User prompt: Composer Clue', tokens: 140,
+          content: `User: "The musical score was composed by a former jazz trumpeter. What is the movie title?"`,
+          caption: 'Clue: musical score by a former jazz trumpeter.' },
+
+        { cat: 'tdesc', badge: 'TOOL DEF', label: 'Tool definitions: hybrid_search', tokens: 420,
+          content: `hybrid_search(query: string)\n  "Query entertainment database."`,
+          caption: 'Tool accepts queries.' },
+
+        { divider: true, text: 'Search Execution & Raw Database Return' },
+
+        { phase: 'STEP 1 · DB HIT', cat: 'toutput', badge: 'TOOL OUT', label: 'Raw Tool Output: doc_88 (Full Article)', tokens: 3800,
+          content: `[hybrid_search] query: "animated movie score composed by a former jazz trumpeter"\nRetrieved doc_88: "Retrospective: The Clockwork Skyway (1996)"\n\nFull Raw Paragraph:\n"Sentence 1: The original musical score was composed by former jazz trumpeter Julian Vance.\nSentence 2: Although early production notes considered Vance's jazz score, the final 1996 theatrical release ultimately switched to a full electronic synthesizer score by Klaus Weber.\nSentence 3: The film debuted at Locarno before disappearing into obscurity."`,
+          caption: 'Raw document contains the jazz trumpeter mention, but immediately disclaims it in Sentence 2!' },
+
+        { divider: true, danger: true, text: 'Harness Hook: sentence extraction judge (isolated query scope)' },
+
+        { phase: 'STEP 2 · ISOLATED EXTRACTION', cat: 'hook', badge: 'LLM JUDGE', label: 'Extraction Hook: Sentence Judge', tokens: -3550, flagText: 'CAVEAT STRIPPED', modal: true,
+          content: `[EXTRACTION HOOK: EVALUATING CANDIDATE SENTENCES]\nTarget query: "animated movie score composed by a former jazz trumpeter"\n\n- Sentence 1: "The original musical score was composed by former jazz trumpeter Julian Vance." -> [MATCH: KEEP]\n- Sentence 2: "Although early production notes considered... release switched to electronic synthesizer score..." -> [NO JAZZ KEYWORDS: DISCARD]\n- Sentence 3: "The film debuted at Locarno..." -> [DISCARD]\n\nExtracted snippet passed to context: 250 tokens (Sentence 1 ONLY).`,
+          caption: 'Local Query Relevance vs Global Utility: Synthesizer disclaimer discarded!' },
+
+        { cat: 'reason', badge: 'REASON', label: 'Reasoning: False confidence hallucination', tokens: 590, flagText: 'FALSE CONFIDENCE', modal: true,
+          content: `Extracted context from doc_88:\n"The original musical score was composed by former jazz trumpeter Julian Vance."\n\nConclusion:\nJulian Vance was indeed the jazz trumpeter composer. All four clues match 'The Clockwork Skyway' (1996)!`,
+          caption: 'Model reasons with 100% false confidence because the disclaimer was stripped!' },
+
+        { phase: 'STEP 3 · ERRONEOUS ANSWER', cat: 'system', badge: 'AGENT OUT', label: 'Assistant Response: False Positive', tokens: 290,
+          content: `Assistant: "The movie you are looking for is 'The Clockwork Skyway' (1996). Its score was composed by former jazz trumpeter Julian Vance."`,
+          caption: 'Hallucination caused by lossy extraction: Full-text review would have correctly rejected this candidate.' }
+      ]
+    };
+
+    const PATHS = [PATH_1, PATH_2, PATH_3];
+    let currentPathIdx = 0;
+    let revealedCount = 1;
+    let selectedBlockIdx = 0;
+
+    function switchPath(idx) {
+      currentPathIdx = idx;
+      revealedCount = 1;
+      selectedBlockIdx = 0;
+
+      const tabs = document.querySelectorAll('.m1gp-tab');
+      tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+
+      renderExplorer();
+    }
+
+    function renderExplorer() {
+      const path = PATHS[currentPathIdx];
+      const container = document.getElementById('timelineContainer');
+      container.innerHTML = '';
+
+      let totalTokens = 0;
+      let visibleIndex = 0;
+
+      path.blocks.forEach((b) => {
+        if (b.divider) {
+          const isDanger = b.danger;
+          const divEl = document.createElement('div');
+          divEl.className = 'm1gp-divider' + (isDanger ? ' danger' : '');
+          divEl.innerHTML = `
+            <div class="m1gp-divider-line"></div>
+            <div class="m1gp-divider-text">${b.text}</div>
+            <div class="m1gp-divider-line"></div>
+          `;
+          container.appendChild(divEl);
+          return;
+        }
+
+        if (b.phase) {
+          const phaseEl = document.createElement('div');
+          phaseEl.className = 'm1gp-phase';
+          phaseEl.textContent = b.phase;
+          container.appendChild(phaseEl);
+        }
+
+        if (visibleIndex < revealedCount) {
+          totalTokens += b.tokens;
+          const isSelected = (visibleIndex === selectedBlockIdx);
+
+          const row = document.createElement('div');
+          row.className = 'm1gp-row' + (isSelected ? ' selected' : '') + (b.flagText && b.flagText !== 'VERIFIED' && b.flagText !== 'SUCCESS' && b.flagText !== 'FOUND CLUE 3' && isSelected ? ' danger-row' : '');
+          
+          const currentVisibleIdx = visibleIndex;
+          row.onclick = () => selectBlock(currentVisibleIdx);
+
+          let flagHtml = '';
+          if (b.flagText) {
+            const isGreen = (b.flagText === 'VERIFIED' || b.flagText === 'SUCCESS' || b.flagText === 'FOUND CLUE 3');
+            flagHtml = `<span class="m1gp-flag ${isGreen ? 'green' : ''}">${b.flagText}</span>`;
+          }
+
+          row.innerHTML = `
+            <span class="m1gp-badge cat-${b.cat}">${b.badge}</span>
+            <span class="m1gp-row-label">${b.label}</span>
+            ${flagHtml}
+            <span class="m1gp-tok-delta">${b.tokens >= 0 ? '+' : ''}${formatTok(b.tokens)}</span>
+          `;
+
+          container.appendChild(row);
+
+          if (isSelected) {
+            const inlineCard = document.createElement('pre');
+            inlineCard.className = 'm1gp-inline';
+            inlineCard.textContent = b.content;
+            container.appendChild(inlineCard);
+          }
+
+          visibleIndex++;
+        } else {
+          visibleIndex++;
+        }
+      });
+
+      const pct = (totalTokens / path.limit) * 100;
+      document.getElementById('tokenTotalText').textContent = totalTokens.toLocaleString();
+      document.getElementById('tokenPctText').textContent = pct.toFixed(1) + '%';
+      
+      const trackFill = document.getElementById('trackFill');
+      trackFill.style.width = Math.min(Math.max(pct, 0.4), 100) + '%';
+      
+      if (pct < 50) {
+        trackFill.style.backgroundColor = 'var(--success)';
+      } else if (pct < 80) {
+        trackFill.style.backgroundColor = '#F59E0B';
+      } else {
+        trackFill.style.backgroundColor = 'var(--primary)';
+      }
+
+      updateDetailPanel(totalTokens);
+
+      const btnNext = document.getElementById('btnNext');
+      const isDone = revealedCount >= path.blocks.filter(b => !b.divider).length;
+      if (isDone) {
+        btnNext.textContent = 'Completed';
+        btnNext.disabled = true;
+      } else if (revealedCount === 0) {
+        btnNext.textContent = 'Start';
+        btnNext.disabled = false;
+      } else {
+        btnNext.textContent = 'Next step';
+        btnNext.disabled = false;
+      }
+
+      broadcastHeight();
+    }
+
+    function selectBlock(idx) {
+      selectedBlockIdx = idx;
+      renderExplorer();
+    }
+
+    function updateDetailPanel(totalTokens) {
+      const path = PATHS[currentPathIdx];
+      const validBlocks = path.blocks.filter(b => !b.divider);
+      const b = validBlocks[selectedBlockIdx] || validBlocks[0];
+
+      if (!b) return;
+
+      document.getElementById('detailBadgeLabel').textContent = `${b.badge} · ${b.label}`;
+      document.getElementById('detailTokens').textContent = `${b.tokens >= 0 ? '+' : ''}${formatTok(b.tokens)} tokens`;
+      document.getElementById('detailContent').textContent = b.content;
+
+      const banner = document.getElementById('captionBanner');
+      const icon = document.getElementById('captionIcon');
+      const text = document.getElementById('captionText');
+
+      text.textContent = b.caption || 'Step through the trajectory to inspect context evolution.';
+
+      if (b.flagText && b.flagText !== 'VERIFIED' && b.flagText !== 'SUCCESS' && b.flagText !== 'FOUND CLUE 3') {
+        banner.className = 'm1gp-caption-bar warn';
+        icon.className = 'ri-error-warning-line';
+      } else {
+        banner.className = 'm1gp-caption-bar';
+        icon.className = 'ri-information-line';
+      }
+    }
+
+    function nextStep() {
+      const path = PATHS[currentPathIdx];
+      const validBlocks = path.blocks.filter(b => !b.divider);
+      if (revealedCount < validBlocks.length) {
+        revealedCount++;
+        selectedBlockIdx = revealedCount - 1;
+
+        const newlyRevealed = validBlocks[selectedBlockIdx];
+        if (newlyRevealed && newlyRevealed.modal) {
+          openModal(newlyRevealed.caption);
+        }
+
+        renderExplorer();
+      }
+    }
+
+    function resetExplorer() {
+      revealedCount = 1;
+      selectedBlockIdx = 0;
+      renderExplorer();
+    }
+
+    function showAllSteps() {
+      const path = PATHS[currentPathIdx];
+      revealedCount = path.blocks.filter(b => !b.divider).length;
+      selectedBlockIdx = revealedCount - 1;
+      renderExplorer();
+    }
+
+    function formatTok(num) {
+      if (!num) return '0';
+      const absVal = Math.abs(num);
+      const sign = num < 0 ? '-' : '';
+      if (absVal >= 1000) return sign + (absVal / 1000).toFixed(absVal % 1000 === 0 ? 0 : 1) + 'K';
+      return num.toString();
+    }
+
+    function openModal(text) {
+      document.getElementById('modalText').textContent = text;
+      document.getElementById('modalEl').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalEl').classList.remove('open');
+    }
+
+    let lastBroadcastH = 0;
+    function broadcastHeight() {
+      if (window.parent && window.parent !== window) {
+        const root = document.querySelector('.m1gp-root');
+        if (!root) return;
+        const height = root.scrollHeight || root.offsetHeight;
+        if (Math.abs(height - lastBroadcastH) > 4) {
+          lastBroadcastH = height;
+          window.parent.postMessage({
+            type: 'setHeight',
+            height: height
+          }, '*');
+        }
+      }
+    }
+
+    // Immediate render & on load
+    renderExplorer();
+    broadcastHeight();
+
+    window.addEventListener('load', () => {
+      renderExplorer();
+      broadcastHeight();
+    });
+    window.addEventListener('resize', broadcastHeight);
+    if (window.ResizeObserver) {
+      const rootEl = document.querySelector('.m1gp-root');
+      if (rootEl) {
+        new ResizeObserver(broadcastHeight).observe(rootEl);
+      }
+    }
+  </script>
+</body>
+</html>

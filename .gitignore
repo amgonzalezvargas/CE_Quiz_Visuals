@@ -1,0 +1,9 @@
+# Ignore all text and scenario/script files
+*.txt
+*.TXT
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

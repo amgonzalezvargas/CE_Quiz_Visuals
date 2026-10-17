@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>DeepLearning.AI - Context Engineering Quiz Suite</title>
+  <!-- Google Fonts: Inter, Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <!-- Tailwind CSS & DaisyUI via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#F65B66',
+            'primary-hover': '#DC2626',
+            'base-150': '#F1F5F9',
+            'base-content-secondary': '#64748B',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            headline: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col w-full max-w-full">
+
+  <!-- Header -->
+  <header class="bg-base-100 border-b border-base-200 sticky top-0 z-50 h-14 sm:h-16 w-full shadow-sm">
+    <div class="max-w-5xl mx-auto flex h-full items-center justify-between px-4 sm:px-6">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="h-7 w-7 sm:h-8 sm:w-8 bg-[#F65B66] rounded-md flex items-center justify-center text-white font-bold text-base sm:text-lg">D</div>
+        <span class="font-bold text-base sm:text-lg tracking-tight">DeepLearning.AI</span>
+      </div>
+      <span class="text-xs font-semibold px-3 py-1 rounded-full bg-red-50 text-[#F65B66] border border-red-200">
+        Course: Context Engineering
+      </span>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold font-headline text-slate-900 tracking-tight mb-2">
+        Context Engineering Interactive Quiz Suite
+      </h1>
+      <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-3xl">
+        Select a module below to explore agent trajectories, inspect token usage across failure paths, and test your knowledge of context failure modes.
+      </p>
+    </div>
+
+    <!-- Modules Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Module 1 Card -->
+      <div class="card bg-base-100 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-body p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+              Module 1
+            </span>
+            <span class="text-xs text-slate-500 font-medium">3 Questions &middot; 30 pts</span>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">
+            Agent Trajectories & Three Failure Paths
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+            Case Study: Maya Lin Footwear Exchange. Inspect the three distinct failure paths: Information Quality (Poisoning & Clash), Action Selection (Context Confusion), and Volume & Noise (Distraction & Rot).
+          </p>
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Poisoning & Clash</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Context Confusion</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Distraction & Rot</span>
+          </div>
+          <div class="card-actions justify-between items-center pt-3 border-t border-slate-100">
+            <a href="Module_1_Explorer.html" target="_blank" class="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+              <i class="ri-external-link-line"></i> Explorer Only
+            </a>
+            <a href="Module_1_Quiz_Page.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Quiz &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2 Card -->
+      <div class="card bg-base-100 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-body p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
+              Module 2
+            </span>
+            <span class="text-xs text-slate-500 font-medium">3 Questions &middot; 30 pts</span>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">
+            Agentic Search, Data Prep & Retrieval
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+            Case Study: Debugging FreshCart. Examine tool selection mismatches, severed class definitions from naive chunking, and context flooding from unconstrained SQL queries.
+          </p>
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Lexical vs Semantic</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">AST Chunking</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Query Scoping</span>
+          </div>
+          <div class="card-actions justify-between items-center pt-3 border-t border-slate-100">
+            <a href="Module_2_Explorer.html" target="_blank" class="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+              <i class="ri-external-link-line"></i> Explorer Only
+            </a>
+            <a href="Module_2_Quiz_Page.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Quiz &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 3 Card -->
+      <div class="card bg-base-100 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-body p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+              Module 3
+            </span>
+            <span class="text-xs text-slate-500 font-medium">3 Questions &middot; 30 pts</span>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">
+            Context Management, Pruning & Compaction
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+            Case Study: The Movie-Finder Research Agent. Investigate re-search loops from brute-force truncation, compaction drift dropping dead ends, and lossy sentence extraction.
+          </p>
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Truncation Loops</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Compaction Drift</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Lossy Extraction</span>
+          </div>
+          <div class="card-actions justify-between items-center pt-3 border-t border-slate-100">
+            <a href="Module_3_Explorer.html" target="_blank" class="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+              <i class="ri-external-link-line"></i> Explorer Only
+            </a>
+            <a href="Module_3_Quiz_Page.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Quiz &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 4 Card -->
+      <div class="card bg-base-100 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+        <div class="card-body p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Module 4
+            </span>
+            <span class="text-xs text-slate-500 font-medium">3 Questions &middot; 30 pts</span>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">
+            Long-Term Memory, Reading/Writing & Lifecycle
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+            Case Study: Doctor’s Appointment Assistant. Step through memory reading clashes, ground-truth drift during offline evals, and semantic duplication during reconciliation.
+          </p>
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Memory Clashes</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Ground-Truth Drift</span>
+            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Write Reconciliation</span>
+          </div>
+          <div class="card-actions justify-between items-center pt-3 border-t border-slate-100">
+            <a href="Module_4_Explorer.html" target="_blank" class="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+              <i class="ri-external-link-line"></i> Explorer Only
+            </a>
+            <a href="Module_4_Quiz_Page.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Quiz &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-base-100 border-t border-base-200 py-6 text-center text-xs text-slate-400">
+    &copy; DeepLearning.AI &middot; Context Engineering Course Quiz Suite
+  </footer>
+
+</body>
+</html>
