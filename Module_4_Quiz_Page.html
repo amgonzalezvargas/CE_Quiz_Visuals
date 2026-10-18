@@ -98,9 +98,7 @@
           <p class="text-slate-800 font-normal leading-relaxed text-xs sm:text-[15px] mb-3">
             An autonomous <strong>Doctor’s Appointment Assistant</strong> manages incoming portal notices for a patient across multiple sessions. The harness connects four data layers: static guidance (<code>Agents.md</code>), session scratchpad, raw append-only logs (<code>message_history.jsonl</code>), and a multi-session <strong>Memory Vector Store</strong>.
           </p>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-4">
-            Step through the interactive memory explorer below to examine three critical memory failure modes: <strong>Context Clash</strong> between simultaneous conflicting direct rules, <strong>Ground-Truth Drift</strong> where benchmark evals desynchronize from updated memory, and <strong>Semantic Duplication</strong> where synonym mapping triggers an <code>ADD</code> instead of a <code>NOOP</code>.
-          </p>
+
 
           <!-- 2. The Embedded Iframe -->
           <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
@@ -126,7 +124,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              During the retrieval execution of the appointment assistant scenario, two distinct direct rules are pulled simultaneously into the context window: one instructing the agent to priority-flag notices from the primary care provider, and another instructing the agent to dismiss wellness marketing notices. When a wellness marketing notice arrives from the primary care provider, what specific failure mode occurs within the harness?
+              In Trajectory 1, during the retrieval execution of the appointment assistant scenario, two distinct direct rules are pulled simultaneously into the context window: one instructing the agent to priority-flag notices from the primary care provider, and another instructing the agent to dismiss wellness marketing notices. When a wellness marketing notice arrives from the primary care provider, what specific failure mode occurs within the harness?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -180,7 +178,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              While running component evaluations on the appointment assistant, the developer finds that automated eval scripts score recall incorrectly for health bulletins after an override operation. What underlying issue caused this evaluation mismatch?
+              In Trajectory 2, while running component evaluations on the appointment assistant, the developer finds that automated eval scripts score recall incorrectly for health bulletins after an override operation. What underlying issue caused this evaluation mismatch?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -234,7 +232,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              When the appointment assistant encounters a paraphrased instruction to bookmark notices instead of priority-flagging them, Phase 2 writing reconciliation improperly creates a new database entry instead of preserving the original record. What mechanism failed during this write operation?
+              In Trajectory 3, when the appointment assistant encounters a paraphrased instruction to bookmark notices instead of priority-flagging them, Phase 2 writing reconciliation improperly creates a new database entry instead of preserving the original record. What mechanism failed during this write operation?
             </p>
             <ol class="space-y-1">
               <li class="list-none">

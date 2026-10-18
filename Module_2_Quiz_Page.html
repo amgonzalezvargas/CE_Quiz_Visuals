@@ -98,9 +98,7 @@
           <p class="text-slate-800 font-normal leading-relaxed text-xs sm:text-[15px] mb-3">
             A backend software engineer at <strong>FreshCart</strong> investigates an urgent bug where customers checkout with out-of-stock items. The engineer deploys an autonomous coding agent with access to three data sources: a <strong>Vector Store</strong> (Chroma code & policies), <strong>Filesystem Event Logs</strong> (regex search), and a <strong>Relational Database</strong> (SQL query tool).
           </p>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-4">
-            Explore the three failure paths below to observe how ambiguous tool definitions lead to semantic mismatches, how naive character chunking severs class definitions, and how unconstrained SQL queries flood the context window.
-          </p>
+
 
           <!-- 2. The Embedded Iframe -->
           <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
@@ -126,7 +124,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              In Failure Path 1, why did the coding agent select the wrong tool and retrieve low-level inventory code instead of the official policy document?
+              In Trajectory 1, why did the coding agent select the wrong tool and retrieve low-level inventory code instead of the official policy document?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -180,7 +178,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              In Failure Path 2, why did naive fixed-character chunking cause the coding agent to report that the <code>InventoryItem</code> model lacked an <code>aisle_id</code> field?
+              In Trajectory 2, why did naive fixed-character chunking cause the coding agent to report that the <code>InventoryItem</code> model lacked an <code>aisle_id</code> field?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -234,7 +232,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              In Failure Path 3, how did generating an unconstrained SQL query without filters or row limits impact the agent's performance?
+              In Trajectory 3, how did generating an unconstrained SQL query without filters or row limits impact the agent's performance?
             </p>
             <ol class="space-y-1">
               <li class="list-none">

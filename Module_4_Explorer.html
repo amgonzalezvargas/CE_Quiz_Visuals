@@ -330,13 +330,15 @@
       text-transform: uppercase;
     }
 
-    .cat-system  { background: #F1F5F9; color: #0F172A; }
-    .cat-user    { background: var(--secondary-content); color: #0E7490; }
-    .cat-tdesc   { background: var(--warning-content); color: #C2410C; }
-    .cat-toutput { background: var(--info-content); color: #7E22CE; }
-    .cat-reason  { background: var(--accent-content); color: #0369A1; }
-    .cat-memory  { background: var(--success-content); color: #15803D; }
-    .cat-hook    { background: #FEF3C7; color: #B45309; }
+    .cat-system    { background: #327EFF; color: #FFFFFF; }
+    .cat-user      { background: #FFB800; color: #1E293B; }
+    .cat-tdesc     { background: #327EFF; color: #FFFFFF; }
+    .cat-tinput    { background: #FF5534; color: #FFFFFF; }
+    .cat-toutput   { background: #00855D; color: #FFFFFF; }
+    .cat-memory    { background: #EDF7D4; color: #1E293B; border: 1px solid #C7E49E; }
+    .cat-reason    { background: #FF00FF; color: #FFFFFF; }
+    .cat-assistant { background: #FF00FF; color: #FFFFFF; }
+    .cat-hook      { background: #EDF7D4; color: #1E293B; border: 1px solid #C7E49E; }
 
     .m1gp-tok-delta {
       font-family: var(--mono);
@@ -499,45 +501,7 @@
       .m1gp-btn-next { height: 36px; padding: 0 16px; font-size: 13px; }
     }
 
-    .app-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 100;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-    .app-modal.open { opacity: 1; pointer-events: auto; }
-    .app-modal-card {
-      width: 100%;
-      max-width: 380px;
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    }
-    .app-modal-card p { font-size: 14px; line-height: 1.5; color: var(--ink); }
-    .app-modal-btn {
-      align-self: flex-end;
-      height: 36px;
-      padding: 0 18px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 700;
-      border-radius: var(--radius-md);
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
+
   </style>
 </head>
 <body>
@@ -547,19 +511,18 @@
     <!-- Top Explorer Header -->
     <div class="m1gp-header">
       <div class="m1gp-title-box">
-        <h2>Module 4: Memory Systems Explorer (Doctor Assistant)</h2>
-        <p>Step through memory reading clashes, ground-truth drift, and semantic write duplication.</p>
+        <h2>Module 4: Long-Term Memory Explorer</h2>
       </div>
 
       <div class="m1gp-tabs" id="pillsBar">
-        <button class="m1gp-tab active" onclick="switchPath(0)">
-          <i class="ri-git-merge-line"></i> Path 1: Memory Clash
+        <button class="m1gp-tab active" onclick="switchTrajectory(0)">
+          <i class="ri-git-merge-line"></i> Trajectory 1: Memory Clash
         </button>
-        <button class="m1gp-tab" onclick="switchPath(1)">
-          <i class="ri-refresh-line"></i> Path 2: Ground-Truth Drift
+        <button class="m1gp-tab" onclick="switchTrajectory(1)">
+          <i class="ri-refresh-line"></i> Trajectory 2: Ground-Truth Drift
         </button>
-        <button class="m1gp-tab" onclick="switchPath(2)">
-          <i class="ri-file-copy-2-line"></i> Path 3: Semantic Duplication
+        <button class="m1gp-tab" onclick="switchTrajectory(2)">
+          <i class="ri-file-copy-2-line"></i> Trajectory 3: Semantic Duplication
         </button>
       </div>
     </div>
@@ -620,148 +583,139 @@
 
   </div>
 
-  <div class="app-modal" id="modalEl" onclick="closeModal()">
-    <div class="app-modal-card" onclick="event.stopPropagation()">
-      <div class="flex items-center gap-2 text-primary font-bold text-sm">
-        <i class="ri-alert-line text-lg"></i>
-        <span>Notice</span>
-      </div>
-      <p id="modalText">Alert note</p>
-      <button class="app-modal-btn" onclick="closeModal()">Continue</button>
-    </div>
-  </div>
+
 
   <script>
     // =============================================================================
     // MODULE 4 DATASETS: DOCTOR'S APPOINTMENT ASSISTANT MEMORY SCENARIOS
     // =============================================================================
 
-    const PATH_1 = {
-      name: 'Path 1: Memory Clash (Conflicting Direct Rules)',
+    const TRAJECTORY_1 = {
+      name: 'Trajectory 1: Memory Clash (Conflicting Direct Rules)',
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM', label: 'System prompt: Doctor Appointment Assistant', tokens: 540,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Doctor Appointment Assistant', tokens: 540,
           content: `You are an AI assistant managing a patient portal queue.\n\nGuardrails:\n  - Fetch unreviewed notices one at a time\n  - Priority-flag critical alerts\n  - Acknowledge and dismiss routine notifications\n  - NEVER book or cancel appointments automatically`,
           caption: 'Agent configured with patient portal workflow and strict guardrails.' },
 
-        { cat: 'system', badge: 'AGENTS.MD', label: 'Static Context: Agents.md', tokens: 320,
-          content: `## User Guidance\n- Patient: Sarah Jenkins (DOB: 1984-06-12)\n- Primary Care Provider: Dr. Aris Thorne (Evergreen Medical)\n- Working hours: Mon-Fri 9am-5pm. Never schedule during Monday 9-10am standup.`,
+        { cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Static Context: Agents.md', tokens: 320,
+          content: `## User Guidance\n- Patient: Registered patient\n- Primary Care Provider: Primary clinic physician\n- Working hours: Mon-Fri 9am-5pm. Never schedule appointments during Monday morning work standups.`,
           caption: 'Agents.md establishes baseline identity and recurring user guidance.' },
 
-        { cat: 'user', badge: 'PORTAL MSG', label: 'Incoming Portal Notice: N-7741', tokens: 180,
-          content: `Notice #N-7741:\nSender: Dr. Aris Thorne (Primary Care Provider)\nSubject: Annual Preventative Screening Program Enrollment\nType: Clinic Wellness Marketing Notice\nBody: "Dear Sarah, our clinic is hosting its annual preventative screening program. Enroll before Oct 20th."`,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Incoming Portal Notice: N-7741', tokens: 180,
+          content: `Notice #N-7741:\nSender: Primary Care Provider\nSubject: Annual Preventative Screening Program Enrollment\nType: Clinic Wellness Marketing Notice\nBody: "Our clinic is hosting its annual preventative screening program. Enroll before Oct 20th."`,
           caption: 'Notice arrives: It is simultaneously from the Primary Care Provider AND a Wellness Marketing Notice!' },
 
-        { cat: 'tdesc', badge: 'TOOL DEF', label: 'Tool definitions: Notice actions', tokens: 480,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: Notice actions', tokens: 480,
           content: `query_memory(intent: string)\n  "Query long-term vector memory for rules."\n\nflag_notice_priority(notice_id: string)\n  "Flag notice as urgent/priority in portal queue."\n\ndismiss_notice(notice_id: string)\n  "Acknowledge and archive notice from queue."`,
           caption: 'Tools available for managing portal notices.' },
 
         { divider: true, danger: true, text: 'Read phase: pre-action memory retrieval triggers context clash' },
 
-        { phase: 'STEP 1 · MEMORY RETRIEVAL', cat: 'memory', badge: 'MEMORY READ', label: 'Memory Output: Two Conflicting Direct Rules', tokens: 1200, flagText: 'CONTEXT CLASH', modal: true,
+        { phase: 'STEP 1 · MEMORY RETRIEVAL', cat: 'memory', badge: 'MEMORY', label: 'Memory Output: Two Conflicting Direct Rules', tokens: 1200, flagText: 'CONTEXT CLASH',
           content: `[query_memory] Retrieved 2 Direct Rules from Vector DB:\n\n<memory id="mem_rule_012" source="user direct" access_count="18">\n  RULE: Priority-flag EVERY notice coming from the primary care provider.\n</memory>\n\n<memory id="mem_rule_089" source="user direct" access_count="12">\n  RULE: Mark wellness marketing notices as acknowledged and dismiss them immediately.\n</memory>`,
           caption: 'Context Clash: Two valid user rules with equal direct authority directly contradict each other!' },
 
-        { cat: 'reason', badge: 'REASON', label: 'Reasoning: Unresolved tie-breaker guess', tokens: 680, flagText: 'GUESSWORK', modal: true,
-          content: `Conflict detected in memory:\n- Rule 012 says: Priority-flag notice because sender is Dr. Thorne (PCP).\n- Rule 089 says: Dismiss notice because type is Wellness Marketing.\nBoth rules originate from 'user direct' with no priority hierarchy or exception rule.\n\nDecision: Defaulting to marketing filter (Rule 089). Calling dismiss_notice.`,
+        { cat: 'reason', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Unresolved tie-breaker guess', tokens: 680, flagText: 'GUESSWORK',
+          content: `Conflict detected in memory:\n- Rule 012 says: Priority-flag notice because sender is Primary Care Provider.\n- Rule 089 says: Dismiss notice because type is Wellness Marketing.\nBoth rules originate from 'user direct' with no priority hierarchy or exception rule.\n\nDecision: Defaulting to marketing filter (Rule 089). Calling dismiss_notice.`,
           caption: 'Lacking a governing exception rule, the model is forced into arbitrary guesswork.' },
 
-        { phase: 'STEP 2 · DISMISSAL ACTION', cat: 'toutput', badge: 'TOOL OUT', label: 'Tool output: dismiss_notice', tokens: 350, flagText: 'MISSED NOTICE',
+        { phase: 'STEP 2 · DISMISSAL ACTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: dismiss_notice', tokens: 350, flagText: 'MISSED NOTICE',
           content: `[dismiss_notice] notice_id: "N-7741"\nStatus: ARCHIVED.\n(Notice dismissed from patient queue without patient alert!)`,
           caption: 'The preventative screening notice is dismissed without user awareness.' },
 
-        { phase: 'STEP 3 · DOWNSTREAM FRICTION', cat: 'user', badge: 'USER COMPLAINT', label: 'Session 2: User Pushback', tokens: 190,
-          content: `Sarah: "Why did you dismiss my doctor's preventative screening notice? I missed the deadline! I told you to flag EVERYTHING from Dr. Thorne!"`,
+        { phase: 'STEP 3 · DOWNSTREAM FRICTION', cat: 'user', badge: 'USER PROMPT', label: 'Session 2: User Pushback', tokens: 190,
+          content: `Patient: "Why did you dismiss my doctor's screening notice? I told you to flag everything from them!"`,
           caption: 'Systemic failure: User experiences broken trust and continuity across sessions.' }
       ]
     };
 
-    const PATH_2 = {
-      name: 'Path 2: Ground-Truth Drift (Stale Eval Reference)',
+    const TRAJECTORY_2 = {
+      name: 'Trajectory 2: Ground-Truth Drift (Stale Eval Reference)',
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM', label: 'System prompt: Doctor Assistant', tokens: 540,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Doctor Assistant', tokens: 540,
           content: `Doctor Appointment Assistant memory system configuration.\nLong-term memory vector store with offline evaluation scripts enabled.`,
           caption: 'Harness configured with vector database and automated evaluation benchmarking.' },
 
-        { cat: 'system', badge: 'AGENTS.MD', label: 'Agents.md: User Identity', tokens: 320,
-          content: `Patient: Sarah Jenkins. Primary Care Provider: Dr. Aris Thorne.`,
+        { cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Agents.md: User Identity', tokens: 320,
+          content: `Patient: Registered patient. Primary Care Provider: Clinic health provider.`,
           caption: 'Patient identity context loaded.' },
 
         { divider: true, text: 'Session 1: User explicitly clarifies and updates rule' },
 
-        { phase: 'SESSION 1 · RULE OVERRIDE', cat: 'user', badge: 'USER DIRECT', label: 'User clarification override', tokens: 140,
-          content: `Sarah: "Clinic health bulletins are not wellness marketing. Keep all clinic health bulletins unacknowledged in my portal queue."`,
+        { phase: 'SESSION 1 · RULE OVERRIDE', cat: 'user', badge: 'USER PROMPT', label: 'User clarification override', tokens: 140,
+          content: `Patient: "Clinic health bulletins are not marketing. Keep health bulletins unacknowledged in my portal queue."`,
           caption: 'User explicitly corrects prior behavior and overrides the marketing rule.' },
 
-        { cat: 'hook', badge: 'WRITE HOOK', label: 'Phase 2 Reconciliation: UPDATE executed', tokens: 680, flagText: 'UPDATE SUCCESS',
+        { cat: 'memory', badge: 'MEMORY', label: 'Phase 2 Reconciliation: UPDATE executed', tokens: 680, flagText: 'UPDATE SUCCESS',
           content: `[POST-SESSION IDLE HOOK: Phase 2 Reconciliation]\nTarget: mem_rule_044\nOperation: UPDATE\nUpdated record in Vector DB:\n<memory id="mem_rule_044" source="user direct" last_accessed="2026-10-15">\n  Keep all clinic health bulletins unacknowledged in queue. Do not dismiss.\n</memory>`,
           caption: 'Memory store accurately updates to reflect the user\'s new instruction.' },
 
         { divider: true, danger: true, text: 'Offline Component Evaluation: Reference set desynchronized' },
 
-        { phase: 'OFFLINE EVALUATION RUN', cat: 'system', badge: 'BENCHMARK', label: 'Eval Suite: test_retrieval_recall.py', tokens: 490,
+        { phase: 'OFFLINE EVALUATION RUN', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Eval Suite: test_retrieval_recall.py', tokens: 490,
           content: `Developer runs automated recall evaluation against golden benchmark:\nTest Query: "clinic health bulletins"\nExpected Reference Target: [mem_rule_089: "dismiss wellness bulletins"]\n(ERROR: Ground-truth reference dataset test_ground_truth.json was NOT updated!)`,
           caption: 'Evaluation dataset still expects the outdated, obsolete rule!' },
 
-        { cat: 'toutput', badge: 'EVAL OUTPUT', label: 'Memory Query Execution', tokens: 820,
+        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Memory Query Execution', tokens: 820,
           content: `[query_memory] Query: "clinic health bulletins"\nRetrieved candidate: mem_rule_044 (Updated rule: Keep unacknowledged in queue).\nScore: 0.94 cosine similarity.`,
           caption: 'System correctly retrieves the up-to-date overridden memory.' },
 
-        { cat: 'reason', badge: 'EVAL SCORER', label: 'Eval Scorer: False regression flagged', tokens: 550, flagText: 'GROUND-TRUTH DRIFT', modal: true,
+        { cat: 'reason', badge: 'ASSISTANT RESPONSE', label: 'Eval Scorer: False regression flagged', tokens: 550, flagText: 'GROUND-TRUTH DRIFT',
           content: `Comparison against golden test reference set:\n- Expected Record: mem_rule_089\n- Actual Retrieved Record: mem_rule_044\n\nMetric Result: MISMATCH!\nRecall@1: 0.00\nPrecision@1: 0.00\nStatus: CRITICAL REGRESSION DETECTED!`,
           caption: 'Ground-Truth Drift: Offline test suite flags a false failure because the benchmark set was stale!' }
       ]
     };
 
-    const PATH_3 = {
-      name: 'Path 3: Semantic Duplication (Add vs Noop)',
+    const TRAJECTORY_3 = {
+      name: 'Trajectory 3: Semantic Duplication (Add vs Noop)',
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM', label: 'System prompt: Doctor Assistant', tokens: 540,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Doctor Assistant', tokens: 540,
           content: `Doctor Appointment Assistant long-term memory operations.\nTwo-phase idle write hook active: Phase 1 (Extraction) & Phase 2 (Reconciliation).`,
           caption: 'Harness memory engine configured for multi-session write lifecycle.' },
 
-        { cat: 'memory', badge: 'EXISTING MEMORY', label: 'Vector Store: Existing Rule', tokens: 620,
+        { cat: 'memory', badge: 'MEMORY', label: 'Vector Store: Existing Rule', tokens: 620,
           content: `<memory id="mem_rule_012" source="user direct" access_count="24">\n  Priority-flag every notice coming from the primary care provider.\n</memory>`,
           caption: 'Existing memory rule already firmly established in the database.' },
 
         { divider: true, text: 'Session interaction: User uses paraphrased synonym' },
 
-        { phase: 'SESSION 5 · PARAPHRASED INPUT', cat: 'user', badge: 'USER', label: 'User request with synonym', tokens: 120,
-          content: `Sarah: "Please make sure you bookmark every notice coming from my primary care provider."`,
+        { phase: 'SESSION 5 · PARAPHRASED INPUT', cat: 'user', badge: 'USER PROMPT', label: 'User request with synonym', tokens: 120,
+          content: `Patient: "Bookmark every notice coming from my primary care provider."`,
           caption: 'User uses the word "bookmark" colloquially instead of "priority-flag".' },
 
         { divider: true, danger: true, text: 'Post-session idle write hook: reconciliation phase' },
 
-        { phase: 'PHASE 1 · EXTRACTION', cat: 'hook', badge: 'WRITE PHASE 1', label: 'Candidate Memory Extraction', tokens: 410,
+        { phase: 'PHASE 1 · EXTRACTION', cat: 'memory', badge: 'MEMORY', label: 'Candidate Memory Extraction', tokens: 410,
           content: `[Phase 1 Extraction]\nCandidate memory extracted from conversation turn:\nData: "Bookmark every notice coming from the primary care provider."\nMetadata: { source: "user direct", type: "rule" }`,
           caption: 'Phase 1 extracts standalone candidate rule and metadata.' },
 
-        { phase: 'PHASE 2 · HYBRID RECONCILIATION', cat: 'hook', badge: 'WRITE PHASE 2', label: 'Reconciliation Threshold Failure', tokens: 740, flagText: 'RECONCILIATION FAIL', modal: true,
+        { phase: 'PHASE 2 · HYBRID RECONCILIATION', cat: 'memory', badge: 'MEMORY', label: 'Reconciliation Threshold Failure', tokens: 740, flagText: 'RECONCILIATION FAIL',
           content: `[Phase 2 Reconciliation: Candidate vs Existing mem_rule_012]\nExisting: "Priority-flag every notice from primary care provider."\nCandidate: "Bookmark every notice from primary care provider."\n\nHybrid Similarity Score: 0.73\nEquivalence Threshold: 0.80\nThreshold check: 0.73 < 0.80 (Failed to map 'bookmark' as synonym of 'priority-flag').\nResult: Candidate classified as NOVEL KNOWLEDGE.`,
           caption: 'Hybrid search reconciliation fails to recognize synonym equivalence between bookmark and priority-flag!' },
 
-        { cat: 'memory', badge: 'VECTOR DB ADD', label: 'Operation: ADD Executed Instead of NOOP', tokens: 620, flagText: 'DUPLICATE ADDED', modal: true,
+        { cat: 'memory', badge: 'MEMORY', label: 'Operation: ADD Executed Instead of NOOP', tokens: 620, flagText: 'DUPLICATE ADDED',
           content: `[OPERATION EXECUTED: ADD (Should have been NOOP)]\nInserted new record mem_rule_159 into Vector DB:\n<memory id="mem_rule_159" source="user direct" access_count="1">\n  Bookmark every notice coming from the primary care provider.\n</memory>`,
           caption: 'Add-Instead-of-Noop: Redundant near-duplicate record created in vector store!' },
 
-        { phase: 'SUBSEQUENT SESSION', cat: 'system', badge: 'BLOAT & CONFUSION', label: 'Impact: Memory Bloat & Retrieval Clash', tokens: 880, flagText: 'MEMORY ROT',
+        { phase: 'SUBSEQUENT SESSION', cat: 'memory', badge: 'MEMORY', label: 'Impact: Memory Bloat & Retrieval Clash', tokens: 880, flagText: 'MEMORY ROT',
           content: `In later sessions, both mem_rule_012 and mem_rule_159 are retrieved into context (+1,240 tokens of duplicate prompt space).\nConflicting weights cause erratic tool choices between bookmark and flag tools.`,
           caption: 'Memory bloat degrades token budget and increases retrieval confusion.' }
       ]
     };
 
-    const PATHS = [PATH_1, PATH_2, PATH_3];
-    let currentPathIdx = 0;
+    const TRAJECTORIES = [TRAJECTORY_1, TRAJECTORY_2, TRAJECTORY_3];
+    let currentTrajectoryIdx = 0;
     let revealedCount = 1;
     let selectedBlockIdx = 0;
 
-    function switchPath(idx) {
-      currentPathIdx = idx;
+    function switchTrajectory(idx) {
+      currentTrajectoryIdx = idx;
       revealedCount = 1;
       selectedBlockIdx = 0;
 
@@ -772,14 +726,14 @@
     }
 
     function renderExplorer() {
-      const path = PATHS[currentPathIdx];
+      const trajectory = TRAJECTORIES[currentTrajectoryIdx];
       const container = document.getElementById('timelineContainer');
       container.innerHTML = '';
 
       let totalTokens = 0;
       let visibleIndex = 0;
 
-      path.blocks.forEach((b) => {
+      trajectory.blocks.forEach((b) => {
         if (b.divider) {
           const isDanger = b.danger;
           const divEl = document.createElement('div');
@@ -838,7 +792,7 @@
         }
       });
 
-      const pct = (totalTokens / path.limit) * 100;
+      const pct = (totalTokens / trajectory.limit) * 100;
       document.getElementById('tokenTotalText').textContent = totalTokens.toLocaleString();
       document.getElementById('tokenPctText').textContent = pct.toFixed(1) + '%';
       
@@ -856,7 +810,7 @@
       updateDetailPanel(totalTokens);
 
       const btnNext = document.getElementById('btnNext');
-      const isDone = revealedCount >= path.blocks.filter(b => !b.divider).length;
+      const isDone = revealedCount >= trajectory.blocks.filter(b => !b.divider).length;
       if (isDone) {
         btnNext.textContent = 'Completed';
         btnNext.disabled = true;
@@ -877,8 +831,8 @@
     }
 
     function updateDetailPanel(totalTokens) {
-      const path = PATHS[currentPathIdx];
-      const validBlocks = path.blocks.filter(b => !b.divider);
+      const trajectory = TRAJECTORIES[currentTrajectoryIdx];
+      const validBlocks = trajectory.blocks.filter(b => !b.divider);
       const b = validBlocks[selectedBlockIdx] || validBlocks[0];
 
       if (!b) return;
@@ -903,17 +857,11 @@
     }
 
     function nextStep() {
-      const path = PATHS[currentPathIdx];
-      const validBlocks = path.blocks.filter(b => !b.divider);
+      const trajectory = TRAJECTORIES[currentTrajectoryIdx];
+      const validBlocks = trajectory.blocks.filter(b => !b.divider);
       if (revealedCount < validBlocks.length) {
         revealedCount++;
         selectedBlockIdx = revealedCount - 1;
-
-        const newlyRevealed = validBlocks[selectedBlockIdx];
-        if (newlyRevealed && newlyRevealed.modal) {
-          openModal(newlyRevealed.caption);
-        }
-
         renderExplorer();
       }
     }
@@ -925,8 +873,8 @@
     }
 
     function showAllSteps() {
-      const path = PATHS[currentPathIdx];
-      revealedCount = path.blocks.filter(b => !b.divider).length;
+      const trajectory = TRAJECTORIES[currentTrajectoryIdx];
+      revealedCount = trajectory.blocks.filter(b => !b.divider).length;
       selectedBlockIdx = revealedCount - 1;
       renderExplorer();
     }
@@ -937,15 +885,6 @@
       const sign = num < 0 ? '-' : '';
       if (absVal >= 1000) return sign + (absVal / 1000).toFixed(absVal % 1000 === 0 ? 0 : 1) + 'K';
       return num.toString();
-    }
-
-    function openModal(text) {
-      document.getElementById('modalText').textContent = text;
-      document.getElementById('modalEl').classList.add('open');
-    }
-
-    function closeModal() {
-      document.getElementById('modalEl').classList.remove('open');
     }
 
     let lastBroadcastH = 0;

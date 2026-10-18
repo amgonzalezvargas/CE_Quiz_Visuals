@@ -98,9 +98,7 @@
           <p class="text-slate-800 font-normal leading-relaxed text-xs sm:text-[15px] mb-3">
             An autonomous research agent is tasked with tracking down an obscure animated film based on four fragmented childhood clues: a grumpy brass pocket watch, a sky-bridge steam train, a pre-1998 European festival prize, and a score by a former jazz trumpeter.
           </p>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-4">
-            To prevent context rot, the harness implements context management hooks: deduplication, extraction, truncation, and compaction. Step through the failure modes below to observe how indiscriminate truncation creates re-search loops, how compaction drift drops negative constraints, and how aggressive sentence extraction strips essential caveats.
-          </p>
+
 
           <!-- 2. The Embedded Iframe -->
           <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
@@ -126,7 +124,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              During the movie search task, the agent's context window fills up with older turns, triggering a brute-force truncation hook that deletes the early turn where <code>doc_5</code> was retrieved and analyzed. Later, the agent cannot find the festival data in its context window and executes a redundant search for the festival prize. Which context management problem does this scenario illustrate?
+              In Trajectory 1, during the movie search task, the agent's context window fills up with older turns, triggering a brute-force truncation hook that deletes the early turn where <code>doc_5</code> was retrieved and analyzed. Later, the agent cannot find the festival data in its context window and executes a redundant search for the festival prize. Which context management problem does this scenario illustrate?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -180,7 +178,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              When the movie agent goes down a dead-end path searching 1990s Japanese anime films, a compaction hook summarizes the history into a handoff summary. Due to a poorly tuned compaction prompt, the summary drops the critical detail that the anime path was abandoned, causing the agent to waste steps re-running searches down the same failed path. Which context management mechanism is responsible for this failure?
+              In Trajectory 2, when the movie agent goes down a dead-end trajectory searching 1990s Japanese anime films, a compaction hook summarizes the history into a handoff summary. Due to a poorly tuned compaction prompt, the summary drops the critical detail that the anime trajectory was abandoned, causing the agent to waste steps re-running searches down the same failed trajectory. Which context management mechanism is responsible for this failure?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -234,7 +232,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              The movie agent searches for the soundtrack composer clue using an extraction hook equipped with an LLM judge. The judge evaluates the retrieved review article strictly against the isolated search query, stripping out a critical disclaimer about an electronic synthesizer score and leaving only the isolated sentence about a jazz trumpeter. As a result, the agent forms false confidence and selects the wrong candidate. Which technical limitation of extraction does this scenario demonstrate?
+              In Trajectory 3, the movie agent searches for the soundtrack composer clue using an extraction hook equipped with an LLM judge. The judge evaluates the retrieved review article strictly against the isolated search query, stripping out a critical disclaimer about an electronic synthesizer score and leaving only the isolated sentence about a jazz trumpeter. As a result, the agent forms false confidence and selects the wrong candidate. Which technical limitation of extraction does this scenario demonstrate?
             </p>
             <ol class="space-y-1">
               <li class="list-none">

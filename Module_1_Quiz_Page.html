@@ -77,7 +77,7 @@
         <span class="text-slate-400">&rsaquo;</span>
         <span>Module 1</span>
         <span class="text-slate-400">&rsaquo;</span>
-        <span class="font-semibold text-slate-800">Quiz: Agent Trajectories & Three Failure Paths</span>
+        <span class="font-semibold text-slate-800">Quiz: Agent Trajectories & Three Failure Trajectories</span>
       </div>
     </div>
 
@@ -87,7 +87,7 @@
         
         <!-- Question Points & Title Bar -->
         <div class="mb-3 flex justify-between items-center gap-2 flex-wrap">
-          <p class="font-semibold text-sm sm:text-base text-slate-900">Case Study & Quiz: Three Failure Paths (Customer Service Agent)</p>
+          <p class="font-semibold text-sm sm:text-base text-slate-900">Case Study & Quiz: Three Failure Trajectories (Customer Service Agent)</p>
           <div class="flex items-center gap-x-1">
             <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">0/30 points</span>
           </div>
@@ -96,13 +96,13 @@
         <!-- 1. Story Narrative -->
         <article class="mb-4 text-base-content prose max-w-none">
           <p class="text-slate-800 font-normal leading-relaxed text-xs sm:text-[15px] mb-3">
-            An online footwear retailer uses an AI customer service agent to handle post-purchase requests. Customer <strong>Maya Lin</strong> purchased trail running shoes in Size 8 for $120 (Order #4412, delivered Oct 1st) that are too tight. She reaches out to swap them for Size 8.5.
+            An online footwear retailer uses an AI customer service agent to handle post-purchase requests. A customer purchased trail running shoes in Size 8 for $120 (Order #4412, delivered Oct 1st) that are too tight. They reach out to the assistant asking to exchange them for a Size 8.5.
           </p>
           <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-4">
-            From the initial order lookup, the interaction branches into three distinct failure paths: 
-            <strong>Path 1: Information Quality (Context Poisoning & Context Clash)</strong>, 
-            <strong>Path 2: Action Selection (Context Confusion)</strong>, and 
-            <strong>Path 3: Volume & Noise (Context Distraction & Context Rot)</strong>.
+            From the initial order lookup, the interaction branches into three distinct failure trajectories: 
+            <strong>Trajectory 1: Information Quality (Context Poisoning & Context Clash)</strong>, 
+            <strong>Trajectory 2: Action Selection (Context Confusion)</strong>, and 
+            <strong>Trajectory 3: Volume & Noise (Context Distraction & Context Rot)</strong>.
           </p>
 
           <!-- 2. The Embedded Iframe -->
@@ -129,7 +129,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              In Path 1, when the agent checks the exchange rules for the customer's order, an outdated 14-day policy is retrieved from the document store and treated as valid, followed shortly by a conflicting 60-day policy. What technical term describes this dual failure mode where incorrect information enters the working context and later conflicts with an updated record?
+              In Trajectory 1, when the agent checks the exchange rules for the customer's order, an outdated 14-day policy is retrieved from the document store and treated as valid, followed shortly by a conflicting 60-day policy. What technical term describes this dual failure mode where incorrect information enters the working context and later conflicts with an updated record?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -183,7 +183,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              In Path 2, the customer tells the agent to cancel the order during an exchange request, and the model mistakenly executes a cancellation tool instead of an exchange tool because their tool descriptions overlap. Which mechanism is primarily responsible for defining what a tool does and guiding the model toward the correct selection?
+              In Trajectory 2, the customer tells the agent to cancel the order during an exchange request, and the model mistakenly executes a cancellation tool instead of an exchange tool because their tool descriptions overlap. Which mechanism is primarily responsible for defining what a tool does and guiding the model toward the correct selection?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
@@ -237,7 +237,7 @@
               <span class="text-xs text-slate-500">10 points</span>
             </div>
             <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
-              In Path 3, an off-topic web search dumps raw HTML into the context window, causing distraction, while a long-running chat history eventually leads the model to forget early details like the order number. Which core phenomenon explains why models struggle to utilize all parts of a large context reliably over lengthy sessions?
+              In Trajectory 3, an off-topic web search dumps raw HTML into the context window, causing distraction, while a long-running chat history eventually leads the model to forget early details like the order number. Which core phenomenon explains why models struggle to utilize all parts of a large context reliably over lengthy sessions?
             </p>
             <ol class="space-y-1">
               <li class="list-none">
