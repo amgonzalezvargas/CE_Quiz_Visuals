@@ -51,16 +51,17 @@
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     html, body {
-      background: var(--base-150);
+      background: var(--base-100);
       color: var(--ink);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
       margin: 0;
       padding: 0;
-      height: auto;
+      height: 100%;
+      max-height: 100vh;
       max-width: 100vw;
-      overflow-x: hidden;
+      overflow: hidden;
       box-sizing: border-box;
     }
 
@@ -72,11 +73,24 @@
     .m1gp-root {
       width: 100%;
       max-width: 100%;
-      overflow-x: hidden;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
       background: var(--base-100);
       display: flex;
       flex-direction: column;
       position: relative;
+    }
+
+    /* Pinned Top Control Deck (Title + Trajectories + Usage Bar + Stepper Controls) */
+    .m1gp-top-deck {
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--base-100);
+      border-bottom: 1px solid var(--base-200);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
     }
 
     /* Explorer Header */
@@ -192,9 +206,28 @@
       top: 0;
       bottom: 0;
       border-radius: var(--radius-full);
-      background: var(--success);
+      overflow: hidden;
+      display: flex;
       width: 0.4%;
-      transition: width 0.3s ease, background-color 0.3s ease;
+      transition: width 0.3s ease;
+      background: transparent;
+    }
+
+    .m1gp-seg {
+      height: 100%;
+      flex-shrink: 0;
+      min-width: 2px;
+      border-right: 1px solid rgba(255, 255, 255, 0.25);
+      transition: width 0.3s ease, filter 0.2s ease;
+      cursor: pointer;
+    }
+
+    .m1gp-seg:last-child {
+      border-right: none;
+    }
+
+    .m1gp-seg:hover {
+      filter: brightness(1.25);
     }
 
     .m1gp-ecl-marker {
@@ -220,10 +253,12 @@
 
     /* Main Area: Two columns on desktop, single column on mobile */
     .m1gp-main {
+      flex: 1 1 auto;
+      min-height: 0;
       display: flex;
-      padding: 20px 22px;
-      gap: 24px;
-      min-height: 480px;
+      padding: 16px 22px;
+      gap: 20px;
+      overflow: hidden;
     }
 
     /* Left Column: Timeline List */
@@ -232,13 +267,32 @@
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .m1gp-tl::-webkit-scrollbar {
+      width: 6px;
+    }
+    .m1gp-tl::-webkit-scrollbar-track {
+      background: var(--base-200);
+      border-radius: 9999px;
+    }
+    .m1gp-tl::-webkit-scrollbar-thumb {
+      background: var(--slate-400);
+      border-radius: 9999px;
+    }
+    .m1gp-tl::-webkit-scrollbar-thumb:hover {
+      background: var(--muted);
     }
 
     .m1gp-scroll {
-      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      padding-bottom: 24px;
     }
 
     /* Timeline Row Components */
@@ -388,15 +442,18 @@
 
     /* Right Column: Terminal Detail Panel (Active in Desktop mode) */
     .m1gp-detail {
-      flex: 1;
+      flex: 1 1 0;
       min-width: 0;
+      height: 100%;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       background: var(--term-bg);
       border-radius: var(--radius-lg);
-      padding: 18px 20px;
+      padding: 16px 18px;
       box-shadow: var(--shadow-md);
       color: #E2E8F0;
+      overflow: hidden;
     }
 
     .m1gp-detail-head {
@@ -419,62 +476,38 @@
     }
 
     .m1gp-detail-content {
-      flex: 1;
-      margin-top: 14px;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin-top: 12px;
       font-family: var(--mono);
       font-size: 12.5px;
       line-height: 1.65;
       color: #CBD5E1;
       white-space: pre-wrap;
       overflow-y: auto;
-      max-height: 480px;
     }
 
-    /* Bottom Pedagogical Caption Bar */
-    .m1gp-caption-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 22px;
-      background: var(--secondary-light);
-      border-top: 1px solid #BAE6FD;
-      font-size: 13px;
-      font-weight: 500;
-      color: #0369A1;
+    .m1gp-detail-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .m1gp-detail-content::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 9999px;
+    }
+    .m1gp-detail-content::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 9999px;
     }
 
-    .m1gp-caption-bar.warn {
-      background: var(--primary-light);
-      border-top-color: #FECDD3;
-      color: #BE123C;
-    }
-
-    /* Stepper Controls Bar */
-    .m1gp-dock {
+    /* Stepper Controls Bar (Top Controls) */
+    .m1gp-controls-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 14px 22px;
+      padding: 10px 22px;
       background: var(--base-100);
-      border-top: 1px solid var(--base-200);
-    }
-
-    .m1gp-dock-meter {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      background: var(--base-200);
-      padding: 5px 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--base-300);
-    }
-    .m1gp-dock-meter strong {
-      color: var(--ink);
-      font-weight: 700;
+      border-bottom: 1px solid var(--base-200);
     }
 
     .m1gp-stepper-actions {
@@ -563,15 +596,9 @@
       }
       .m1gp-detail { display: none !important; }
       .m1gp-inline { display: block !important; }
-      .m1gp-dock {
-        position: sticky;
-        bottom: 0;
-        z-index: 20;
-        background: var(--base-100);
-        border-top: 1px solid var(--base-300);
-        padding: 10px 14px !important;
+      .m1gp-controls-bar {
+        padding: 8px 14px;
         gap: 8px;
-        box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
       }
       .m1gp-stepper-actions { gap: 8px; }
       .m1gp-btn-next { height: 36px; padding: 0 16px; font-size: 13px; }
@@ -583,35 +610,51 @@
 
   <div class="m1gp-root">
     
-    <!-- Top Explorer Header -->
-    <div class="m1gp-header">
-      <div class="m1gp-title-box">
-        <h2>Module 2: Autonomous Coding Agent</h2>
+    <!-- Pinned Top Control Deck (Red Section) -->
+    <div class="m1gp-top-deck">
+      <!-- Top Explorer Header -->
+      <div class="m1gp-header">
+        <div class="m1gp-title-box">
+          <h2>Context Window Explorer</h2>
+        </div>
+
+        <div class="m1gp-tabs" id="pillsBar">
+          <button class="m1gp-tab active" onclick="switchTrajectory(0)">Trajectory 1</button>
+          <button class="m1gp-tab" onclick="switchTrajectory(1)">Trajectory 2</button>
+          <button class="m1gp-tab" onclick="switchTrajectory(2)">Trajectory 3</button>
+        </div>
       </div>
 
-      <div class="m1gp-tabs" id="pillsBar">
-        <button class="m1gp-tab active" onclick="switchTrajectory(0)">Trajectory 1</button>
-        <button class="m1gp-tab" onclick="switchTrajectory(1)">Trajectory 2</button>
-        <button class="m1gp-tab" onclick="switchTrajectory(2)">Trajectory 3</button>
+      <!-- Token Meter Gauge -->
+      <div class="m1gp-meter-wrap" id="meterWrap">
+        <div class="m1gp-meter-labels">
+          <span class="m1gp-meter-title">Context Window Usage</span>
+          <span class="m1gp-meter-stats">
+            <strong id="tokenTotalText">620</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.5%</span>
+          </span>
+        </div>
+        <div class="m1gp-track">
+          <div class="m1gp-fill" id="trackFill"></div>
+          <div class="m1gp-ecl-marker"></div>
+          <div class="m1gp-ecl-label">Effective context length (80%)</div>
+        </div>
+      </div>
+
+      <!-- Stepper Controls Bar (Top Controls directly below usage bar) -->
+      <div class="m1gp-controls-bar">
+        <div class="m1gp-stepper-actions">
+          <button class="m1gp-btn-text" onclick="resetExplorer()">
+            <i class="ri-restart-line"></i> Reset
+          </button>
+          <button class="m1gp-btn-text" onclick="showAllSteps()">
+            <i class="ri-skip-forward-line"></i> Show all
+          </button>
+        </div>
+        <button class="m1gp-btn-next" id="btnNext" onclick="nextStep()">Next step</button>
       </div>
     </div>
 
-    <!-- Token Meter Gauge -->
-    <div class="m1gp-meter-wrap" id="meterWrap">
-      <div class="m1gp-meter-labels">
-        <span class="m1gp-meter-title">Context Window Usage</span>
-        <span class="m1gp-meter-stats">
-          <strong id="tokenTotalText">620</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.5%</span>
-        </span>
-      </div>
-      <div class="m1gp-track">
-        <div class="m1gp-fill" id="trackFill"></div>
-        <div class="m1gp-ecl-marker"></div>
-        <div class="m1gp-ecl-label">Effective context length (80%)</div>
-      </div>
-    </div>
-
-    <!-- Main Two-Column Area -->
+    <!-- Main Two-Column Area (Blue Section: Working Context Window) -->
     <div class="m1gp-main">
       <!-- Left: Timeline List -->
       <div class="m1gp-tl">
@@ -631,29 +674,6 @@
           Loading...
         </div>
       </div>
-    </div>
-
-    <!-- Bottom Pedagogical Caption Bar -->
-    <div class="m1gp-caption-bar" id="captionBanner">
-      <i class="ri-information-line text-cyan-600" id="captionIcon"></i>
-      <span id="captionText">Inspecting initial setup.</span>
-    </div>
-
-    <!-- Stepper Controls Bar -->
-    <div class="m1gp-dock">
-      <div class="m1gp-stepper-actions">
-        <button class="m1gp-btn-text" onclick="resetExplorer()">
-          <i class="ri-restart-line"></i> Reset
-        </button>
-        <button class="m1gp-btn-text" onclick="showAllSteps()">
-          <i class="ri-skip-forward-line"></i> Show all
-        </button>
-      </div>
-      <div class="m1gp-dock-meter" id="dockMeter">
-        <span>Tokens:</span>
-        <strong id="dockMeterVal">620 / 128K (0.5%)</strong>
-      </div>
-      <button class="m1gp-btn-next" id="btnNext" onclick="nextStep()">Next step</button>
     </div>
 
   </div>
@@ -750,7 +770,7 @@
           content: `Engineer: "Find all checkout records from October 14, 2026, where out-of-stock items bypassed validation."`,
           caption: 'Targeted prompt: Engineer requests transactions for a specific date (Oct 14, 2026).' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: SQL Execution', tokens: 460,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: SQL Execution', tokens: 960,
           content: `database_sql_query(sql_query: string)\n  "Executes SQL queries against Postgres replica. Returns JSON array of rows."`,
           caption: 'Tool accepts raw SQL query strings and dumps returned rows directly into context.' },
 
@@ -792,6 +812,18 @@
     }
     const switchPath = switchTrajectory;
 
+    const CAT_COLORS = {
+      'system': '#327EFF',
+      'tdesc': '#327EFF',
+      'user': '#FFB800',
+      'tinput': '#FF5534',
+      'toutput': '#00855D',
+      'memory': '#84CC16',
+      'hook': '#84CC16',
+      'assistant': '#FF00FF',
+      'reason': '#FF00FF'
+    };
+
     function renderExplorer() {
       const path = TRAJECTORIES[currentTrajectoryIdx];
       const container = document.getElementById('timelineContainer');
@@ -799,48 +831,34 @@
 
       let totalTokens = 0;
       let visibleIndex = 0;
+      const activeBlocks = [];
 
       path.blocks.forEach((b) => {
         if (b.divider) {
-          const isDanger = b.danger;
-          const divEl = document.createElement('div');
-          divEl.className = 'm1gp-divider' + (isDanger ? ' danger' : '');
-          divEl.innerHTML = `
-            <div class="m1gp-divider-line"></div>
-            <div class="m1gp-divider-text">${b.text}</div>
-            <div class="m1gp-divider-line"></div>
-          `;
-          container.appendChild(divEl);
           return;
-        }
-
-        if (b.phase) {
-          const phaseEl = document.createElement('div');
-          phaseEl.className = 'm1gp-phase';
-          phaseEl.textContent = b.phase;
-          container.appendChild(phaseEl);
         }
 
         if (visibleIndex < revealedCount) {
           totalTokens += b.tokens;
           const isSelected = (visibleIndex === selectedBlockIdx);
 
+          activeBlocks.push({
+            cat: b.cat,
+            badge: b.badge,
+            label: b.label,
+            tokens: b.tokens,
+            visibleIdx: visibleIndex
+          });
+
           const row = document.createElement('div');
-          row.className = 'm1gp-row' + (isSelected ? ' selected' : '') + (b.flagText && b.flagText !== 'VERIFIED' && b.flagText !== 'SUCCESS' && isSelected ? ' danger-row' : '');
+          row.className = 'm1gp-row' + (isSelected ? ' selected' : '');
           
           const currentVisibleIdx = visibleIndex;
           row.onclick = () => selectBlock(currentVisibleIdx);
 
-          let flagHtml = '';
-          if (b.flagText) {
-            const isGreen = (b.flagText === 'VERIFIED' || b.flagText === 'SUCCESS');
-            flagHtml = `<span class="m1gp-flag ${isGreen ? 'green' : ''}">${b.flagText}</span>`;
-          }
-
           row.innerHTML = `
             <span class="m1gp-badge cat-${b.cat}">${b.badge}</span>
             <span class="m1gp-row-label">${b.label}</span>
-            ${flagHtml}
             <span class="m1gp-tok-delta">+${formatTok(b.tokens)}</span>
           `;
 
@@ -859,26 +877,33 @@
         }
       });
 
-      // Gauge Bar
+      // Segmented Context Usage Bar
       const pct = (totalTokens / path.limit) * 100;
       document.getElementById('tokenTotalText').textContent = totalTokens.toLocaleString();
       document.getElementById('tokenPctText').textContent = pct.toFixed(1) + '%';
       
       const trackFill = document.getElementById('trackFill');
-      trackFill.style.width = Math.min(pct, 100) + '%';
-      
-      if (pct < 50) {
-        trackFill.style.backgroundColor = 'var(--success)';
-      } else if (pct < 80) {
-        trackFill.style.backgroundColor = '#F59E0B';
-      } else {
-        trackFill.style.backgroundColor = 'var(--primary)';
-      }
+      trackFill.innerHTML = '';
+      trackFill.style.width = Math.min(Math.max(pct, 0.8), 100) + '%';
 
-      const dockMeterVal = document.getElementById('dockMeterVal');
-      if (dockMeterVal) {
-        dockMeterVal.textContent = `${totalTokens.toLocaleString()} / ${formatTok(path.limit)} (${pct.toFixed(1)}%)`;
-      }
+      activeBlocks.forEach((item) => {
+        if (!item.tokens || item.tokens <= 0) return;
+        const seg = document.createElement('div');
+        seg.className = 'm1gp-seg';
+        const segPct = totalTokens > 0 ? (item.tokens / totalTokens) * 100 : 0;
+        seg.style.width = segPct + '%';
+        seg.style.backgroundColor = CAT_COLORS[item.cat] || '#327EFF';
+        const winPct = ((item.tokens / path.limit) * 100).toFixed(1);
+        seg.title = `${item.badge} · ${item.label} (+${formatTok(item.tokens)} · ${winPct}% of context)`;
+        if (item.visibleIdx === selectedBlockIdx) {
+          seg.style.boxShadow = '0 0 0 1.5px #FFFFFF, inset 0 0 4px rgba(255,255,255,0.7)';
+        }
+        seg.onclick = (e) => {
+          e.stopPropagation();
+          selectBlock(item.visibleIdx);
+        };
+        trackFill.appendChild(seg);
+      });
 
       updateDetailPanel(totalTokens);
 
@@ -913,20 +938,18 @@
       document.getElementById('detailBadgeLabel').textContent = `${b.badge} · ${b.label}`;
       document.getElementById('detailTokens').textContent = `+${formatTok(b.tokens)} tokens`;
       document.getElementById('detailContent').textContent = b.content;
+    }
 
-      const banner = document.getElementById('captionBanner');
-      const icon = document.getElementById('captionIcon');
-      const text = document.getElementById('captionText');
-
-      text.textContent = b.caption || 'Step through the trajectory to inspect context evolution.';
-
-      if (b.flagText && b.flagText !== 'VERIFIED' && b.flagText !== 'SUCCESS') {
-        banner.className = 'm1gp-caption-bar warn';
-        icon.className = 'ri-error-warning-line';
-      } else {
-        banner.className = 'm1gp-caption-bar';
-        icon.className = 'ri-information-line';
-      }
+    function scrollActiveTimelineStep() {
+      setTimeout(() => {
+        const tl = document.querySelector('.m1gp-tl');
+        if (tl) {
+          const selectedRow = tl.querySelector('.m1gp-row.selected');
+          if (selectedRow) {
+            selectedRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
+      }, 40);
     }
 
     function nextStep() {
@@ -936,6 +959,7 @@
         revealedCount++;
         selectedBlockIdx = revealedCount - 1;
         renderExplorer();
+        scrollActiveTimelineStep();
       }
     }
 
@@ -943,6 +967,8 @@
       revealedCount = 1;
       selectedBlockIdx = 0;
       renderExplorer();
+      const tl = document.querySelector('.m1gp-tl');
+      if (tl) tl.scrollTop = 0;
     }
 
     function showAllSteps() {
@@ -950,6 +976,7 @@
       revealedCount = path.blocks.filter(b => !b.divider).length;
       selectedBlockIdx = revealedCount - 1;
       renderExplorer();
+      scrollActiveTimelineStep();
     }
 
     function formatTok(num) {
@@ -958,19 +985,12 @@
       return num.toString();
     }
 
-    let lastBroadcastH = 0;
     function broadcastHeight() {
       if (window.parent && window.parent !== window) {
-        const root = document.querySelector('.m1gp-root');
-        if (!root) return;
-        const height = root.scrollHeight || root.offsetHeight;
-        if (Math.abs(height - lastBroadcastH) > 4) {
-          lastBroadcastH = height;
-          window.parent.postMessage({
-            type: 'setHeight',
-            height: height
-          }, '*');
-        }
+        window.parent.postMessage({
+          type: 'setHeight',
+          height: 620
+        }, '*');
       }
     }
 
