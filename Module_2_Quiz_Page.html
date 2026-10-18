@@ -101,14 +101,14 @@
 
 
           <!-- 2. The Embedded Iframe -->
-          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
+          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6" style="max-height: 640px;">
             <iframe 
               id="explorer-iframe" 
               src="Module_2_Explorer.html" 
               width="100%" 
               height="620" 
-              style="width: 100%; min-width: 100%; max-width: 100%; border: 0; display: block;"
-              title="Module 2 Agentic Search Explorer"
+              style="width: 100%; min-width: 100%; max-width: 100%; height: 620px; max-height: 640px; border: 0; display: block;"
+              title="Module 2: Autonomous Coding Agent"
               loading="lazy">
             </iframe>
           </div>
@@ -119,11 +119,16 @@
 
           <!-- Question 1 -->
           <div>
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 1:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 1:</p>
+                <button type="button" onclick="jumpToTrajectory(0)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 1
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 1, why did the coding agent select the wrong tool and retrieve low-level inventory code instead of the official policy document?
             </p>
             <ol class="space-y-1">
@@ -173,11 +178,16 @@
 
           <!-- Question 2 -->
           <div class="border-t border-slate-100 pt-5">
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 2:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 2:</p>
+                <button type="button" onclick="jumpToTrajectory(1)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 2
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 2, why did naive fixed-character chunking cause the coding agent to report that the <code>InventoryItem</code> model lacked an <code>aisle_id</code> field?
             </p>
             <ol class="space-y-1">
@@ -227,11 +237,16 @@
 
           <!-- Question 3 -->
           <div class="border-t border-slate-100 pt-5">
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 3:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 3:</p>
+                <button type="button" onclick="jumpToTrajectory(2)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 3
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 3, how did generating an unconstrained SQL query without filters or row limits impact the agent's performance?
             </p>
             <ol class="space-y-1">
@@ -299,11 +314,22 @@
   </footer>
 
   <script>
+    function jumpToTrajectory(idx) {
+      const iframe = document.getElementById('explorer-iframe');
+      if (iframe) {
+        iframe.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (iframe.contentWindow) {
+          iframe.contentWindow.postMessage({ type: 'switchTrajectory', index: idx }, '*');
+        }
+      }
+    }
+
     window.addEventListener('message', function(event) {
       if (event.data && event.data.type === 'setHeight' && typeof event.data.height === 'number') {
         const iframe = document.getElementById('explorer-iframe');
         if (iframe) {
-          const newH = Math.max(540, event.data.height);
+          const maxAllowed = Math.min(640, Math.round(window.innerHeight * 0.85));
+          const newH = Math.min(maxAllowed, Math.max(520, event.data.height));
           iframe.style.height = newH + 'px';
         }
       }

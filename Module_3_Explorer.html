@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Module 3: Context Management Explorer</title>
+  <title>Module 3: Research Agent</title>
   <!-- Google Fonts: Inter, Poppins, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,33 +80,31 @@
 
     .m1gp-header {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 20px 22px 14px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 18px 22px 14px;
       border-bottom: 1px solid var(--base-200);
+    }
+
+    .m1gp-title-box {
+      width: 100%;
     }
 
     .m1gp-title-box h2 {
       font-family: var(--font-headline);
       font-size: 20px;
       font-weight: 700;
-      line-height: 1.15;
+      line-height: 1.2;
       color: var(--ink);
-    }
-
-    .m1gp-title-box p {
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-top: 3px;
     }
 
     .m1gp-tabs {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: flex-start;
+      width: 100%;
     }
 
     .m1gp-tab {
@@ -140,9 +138,13 @@
     }
 
     .m1gp-meter-wrap {
-      padding: 16px 22px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 25;
+      padding: 14px 22px 12px;
       background: var(--base-150);
       border-bottom: 1px solid var(--base-200);
+      backdrop-filter: blur(8px);
     }
 
     .m1gp-meter-labels {
@@ -250,20 +252,29 @@
       align-items: center;
       gap: 8px;
       padding: 16px 0 6px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .m1gp-divider-line {
-      flex: 1;
+      flex: 1 1 8px;
+      min-width: 6px;
       border-top: 1.5px dashed var(--base-300);
     }
 
     .m1gp-divider-text {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      white-space: nowrap;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+      line-height: 1.35;
       color: var(--muted);
+      max-width: calc(100% - 16px);
     }
 
     .m1gp-divider.danger .m1gp-divider-text { color: var(--primary); }
@@ -360,7 +371,6 @@
       white-space: pre-wrap;
       margin: 4px 0 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-left: 3px solid #06B6D4;
     }
 
     .m1gp-detail {
@@ -427,9 +437,27 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       padding: 14px 22px;
       background: var(--base-100);
       border-top: 1px solid var(--base-200);
+    }
+
+    .m1gp-dock-meter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--base-200);
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--base-300);
+    }
+    .m1gp-dock-meter strong {
+      color: var(--ink);
+      font-weight: 700;
     }
 
     .m1gp-stepper-actions {
@@ -510,19 +538,13 @@
     <!-- Top Explorer Header -->
     <div class="m1gp-header">
       <div class="m1gp-title-box">
-        <h2>Module 3: Context Management Explorer (Movie-Finder)</h2>
+        <h2>Module 3: Research Agent</h2>
       </div>
 
       <div class="m1gp-tabs" id="pillsBar">
-        <button class="m1gp-tab active" onclick="switchTrajectory(0)">
-          <i class="ri-delete-bin-6-line"></i> Trajectory 1: Truncation Loop
-        </button>
-        <button class="m1gp-tab" onclick="switchTrajectory(1)">
-          <i class="ri-contract-left-right-line"></i> Trajectory 2: Compaction Drift
-        </button>
-        <button class="m1gp-tab" onclick="switchTrajectory(2)">
-          <i class="ri-filter-line"></i> Trajectory 3: Aggressive Extraction
-        </button>
+        <button class="m1gp-tab active" onclick="switchTrajectory(0)">Trajectory 1</button>
+        <button class="m1gp-tab" onclick="switchTrajectory(1)">Trajectory 2</button>
+        <button class="m1gp-tab" onclick="switchTrajectory(2)">Trajectory 3</button>
       </div>
     </div>
 
@@ -576,6 +598,10 @@
         <button class="m1gp-btn-text" onclick="showAllSteps()">
           <i class="ri-skip-forward-line"></i> Show all
         </button>
+      </div>
+      <div class="m1gp-dock-meter" id="dockMeter">
+        <span>Tokens:</span>
+        <strong id="dockMeterVal">580 / 128K (0.5%)</strong>
       </div>
       <button class="m1gp-btn-next" id="btnNext" onclick="nextStep()">Next step</button>
     </div>
@@ -824,6 +850,11 @@
         trackFill.style.backgroundColor = 'var(--primary)';
       }
 
+      const dockMeterVal = document.getElementById('dockMeterVal');
+      if (dockMeterVal) {
+        dockMeterVal.textContent = `${totalTokens.toLocaleString()} / ${formatTok(path.limit)} (${pct.toFixed(1)}%)`;
+      }
+
       updateDetailPanel(totalTokens);
 
       const btnNext = document.getElementById('btnNext');
@@ -919,6 +950,12 @@
         }
       }
     }
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'switchTrajectory' && typeof event.data.index === 'number') {
+        switchTrajectory(event.data.index);
+      }
+    });
 
     // Immediate render & on load
     renderExplorer();

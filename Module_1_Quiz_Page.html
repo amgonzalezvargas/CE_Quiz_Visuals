@@ -98,22 +98,17 @@
           <p class="text-slate-800 font-normal leading-relaxed text-xs sm:text-[15px] mb-3">
             An online footwear retailer uses an AI customer service agent to handle post-purchase requests. A customer purchased trail running shoes in Size 8 for $120 (Order #4412, delivered Oct 1st) that are too tight. They reach out to the assistant asking to exchange them for a Size 8.5.
           </p>
-          <p class="text-slate-700 text-xs sm:text-sm leading-relaxed mb-4">
-            From the initial order lookup, the interaction branches into three distinct failure trajectories: 
-            <strong>Trajectory 1: Information Quality (Context Poisoning & Context Clash)</strong>, 
-            <strong>Trajectory 2: Action Selection (Context Confusion)</strong>, and 
-            <strong>Trajectory 3: Volume & Noise (Context Distraction & Context Rot)</strong>.
-          </p>
+
 
           <!-- 2. The Embedded Iframe -->
-          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
+          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6" style="max-height: 640px;">
             <iframe 
               id="explorer-iframe" 
               src="Module_1_Explorer.html" 
               width="100%" 
               height="620" 
-              style="width: 100%; min-width: 100%; max-width: 100%; border: 0; display: block;"
-              title="Context Window Explorer"
+              style="width: 100%; min-width: 100%; max-width: 100%; height: 620px; max-height: 640px; border: 0; display: block;"
+              title="Module 1: Customer Service Agent"
               loading="lazy">
             </iframe>
           </div>
@@ -124,11 +119,16 @@
 
           <!-- Question 1 -->
           <div>
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 1:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 1:</p>
+                <button type="button" onclick="jumpToTrajectory(0)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 1
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 1, when the agent checks the exchange rules for the customer's order, an outdated 14-day policy is retrieved from the document store and treated as valid, followed shortly by a conflicting 60-day policy. What technical term describes this dual failure mode where incorrect information enters the working context and later conflicts with an updated record?
             </p>
             <ol class="space-y-1">
@@ -137,7 +137,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q1-answers" value="A" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Poisoning and Context Clash: Stale data enters the working model input and subsequent retrieval actions introduce conflicting records without clear metadata.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Poisoning and Context Clash: Stale data enters the working model input and subsequent retrieval actions introduce conflicting records without clear metadata.</span>
                     </div>
                   </label>
                 </div>
@@ -147,7 +147,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q1-answers" value="B" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Rot and Context Distraction: Unbounded tokens accumulate in the background and unrelated text crowds the working model memory.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Rot and Context Distraction: Unbounded tokens accumulate in the background and unrelated text crowds the working model memory.</span>
                     </div>
                   </label>
                 </div>
@@ -157,7 +157,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q1-answers" value="C" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Confusion and Context Poisoning: Ambiguous function descriptions trick the model into selecting the wrong action while stale files enter the system.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Confusion and Context Poisoning: Ambiguous function descriptions trick the model into selecting the wrong action while stale files enter the system.</span>
                     </div>
                   </label>
                 </div>
@@ -167,7 +167,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q1-answers" value="D" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Clash and Context Rot: Multiple versions of a document compete for attention while the overall token count saturates the model memory limit.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Clash and Context Rot: Multiple versions of a document compete for attention while the overall token count saturates the model memory limit.</span>
                     </div>
                   </label>
                 </div>
@@ -178,11 +178,16 @@
 
           <!-- Question 2 -->
           <div class="border-t border-slate-100 pt-5">
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 2:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 2:</p>
+                <button type="button" onclick="jumpToTrajectory(1)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 2
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 2, the customer tells the agent to cancel the order during an exchange request, and the model mistakenly executes a cancellation tool instead of an exchange tool because their tool descriptions overlap. Which mechanism is primarily responsible for defining what a tool does and guiding the model toward the correct selection?
             </p>
             <ol class="space-y-1">
@@ -191,7 +196,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q2-answers" value="A" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Tool Definitions: Structured JSON schemas containing descriptions and parameters that outline the function of each tool for the model.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Tool Definitions: Structured JSON schemas containing descriptions and parameters that outline the function of each tool for the model.</span>
                     </div>
                   </label>
                 </div>
@@ -201,7 +206,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q2-answers" value="B" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Post-Tool Hooks: Deterministic functions that execute automatically after a tool finishes running to validate output metadata.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Post-Tool Hooks: Deterministic functions that execute automatically after a tool finishes running to validate output metadata.</span>
                     </div>
                   </label>
                 </div>
@@ -211,7 +216,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q2-answers" value="C" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Reasoning Traces: Internal tracking steps generated by the model to record its step-by-step problem-solving process.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Reasoning Traces: Internal tracking steps generated by the model to record its step-by-step problem-solving process.</span>
                     </div>
                   </label>
                 </div>
@@ -221,7 +226,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q2-answers" value="D" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">System Prompts: Stable core instructions placed at the beginning of the context window to control general agent behavior.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">System Prompts: Stable core instructions placed at the beginning of the context window to control general agent behavior.</span>
                     </div>
                   </label>
                 </div>
@@ -232,11 +237,16 @@
 
           <!-- Question 3 -->
           <div class="border-t border-slate-100 pt-5">
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 3:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 3:</p>
+                <button type="button" onclick="jumpToTrajectory(2)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 3
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 3, an off-topic web search dumps raw HTML into the context window, causing distraction, while a long-running chat history eventually leads the model to forget early details like the order number. Which core phenomenon explains why models struggle to utilize all parts of a large context reliably over lengthy sessions?
             </p>
             <ol class="space-y-1">
@@ -245,7 +255,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q3-answers" value="A" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Rot: The degradation of model reasoning and recall performance as attention mechanisms operate across filling context windows.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Rot: The degradation of model reasoning and recall performance as attention mechanisms operate across filling context windows.</span>
                     </div>
                   </label>
                 </div>
@@ -255,7 +265,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q3-answers" value="B" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Poisoning: The introduction of unverified external data sources that corrupt the factual basis of the agent reasoning.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Poisoning: The introduction of unverified external data sources that corrupt the factual basis of the agent reasoning.</span>
                     </div>
                   </label>
                 </div>
@@ -265,7 +275,7 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q3-answers" value="C" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Clash: The simultaneous presence of contradictory information streams that confuse the attention span of the model.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Clash: The simultaneous presence of contradictory information streams that confuse the attention span of the model.</span>
                     </div>
                   </label>
                 </div>
@@ -275,13 +285,13 @@
                   <label class="cursor-pointer flex items-start gap-2.5 sm:gap-3">
                     <input type="radio" name="q3-answers" value="D" class="radio radio-xs sm:radio-sm text-primary focus:ring-primary mt-0.5 flex-shrink-0">
                     <div class="inline-flex items-center flex-1 min-w-0">
-                      <span class="text-xs sm:text-sm text-slate-800 leading-relaxed break-words">Context Confusion: The operational failure caused by overlapping function parameters during multi-step tool executions.</span>
+                      <span class="text-[13.5px] sm:text-sm text-slate-800 leading-relaxed break-words">Context Confusion: The operational failure caused by overlapping function parameters during multi-step tool executions.</span>
                     </div>
                   </label>
                 </div>
               </li>
             </ol>
-            <div id="q1-msg" class="hidden text-xs mt-2 px-3 py-2 rounded-lg"></div>
+            <div id="q3-msg" class="hidden text-xs mt-2 px-3 py-2 rounded-lg"></div>
           </div>
 
         </div>
@@ -304,11 +314,22 @@
   </footer>
 
   <script>
+    function jumpToTrajectory(idx) {
+      const iframe = document.getElementById('explorer-iframe');
+      if (iframe) {
+        iframe.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (iframe.contentWindow) {
+          iframe.contentWindow.postMessage({ type: 'switchTrajectory', index: idx }, '*');
+        }
+      }
+    }
+
     window.addEventListener('message', function(event) {
       if (event.data && event.data.type === 'setHeight' && typeof event.data.height === 'number') {
         const iframe = document.getElementById('explorer-iframe');
         if (iframe) {
-          const newH = Math.max(540, event.data.height);
+          const maxAllowed = Math.min(640, Math.round(window.innerHeight * 0.85));
+          const newH = Math.min(maxAllowed, Math.max(520, event.data.height));
           iframe.style.height = newH + 'px';
         }
       }

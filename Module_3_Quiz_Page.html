@@ -101,14 +101,14 @@
 
 
           <!-- 2. The Embedded Iframe -->
-          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6">
+          <div class="w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50 mb-6" style="max-height: 640px;">
             <iframe 
               id="explorer-iframe" 
               src="Module_3_Explorer.html" 
               width="100%" 
               height="620" 
-              style="width: 100%; min-width: 100%; max-width: 100%; border: 0; display: block;"
-              title="Module 3 Context Management Explorer"
+              style="width: 100%; min-width: 100%; max-width: 100%; height: 620px; max-height: 640px; border: 0; display: block;"
+              title="Module 3: Research Agent"
               loading="lazy">
             </iframe>
           </div>
@@ -119,11 +119,16 @@
 
           <!-- Question 1 -->
           <div>
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 1:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 1:</p>
+                <button type="button" onclick="jumpToTrajectory(0)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 1
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 1, during the movie search task, the agent's context window fills up with older turns, triggering a brute-force truncation hook that deletes the early turn where <code>doc_5</code> was retrieved and analyzed. Later, the agent cannot find the festival data in its context window and executes a redundant search for the festival prize. Which context management problem does this scenario illustrate?
             </p>
             <ol class="space-y-1">
@@ -173,11 +178,16 @@
 
           <!-- Question 2 -->
           <div class="border-t border-slate-100 pt-5">
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 2:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 2:</p>
+                <button type="button" onclick="jumpToTrajectory(1)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 2
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 2, when the movie agent goes down a dead-end trajectory searching 1990s Japanese anime films, a compaction hook summarizes the history into a handoff summary. Due to a poorly tuned compaction prompt, the summary drops the critical detail that the anime trajectory was abandoned, causing the agent to waste steps re-running searches down the same failed trajectory. Which context management mechanism is responsible for this failure?
             </p>
             <ol class="space-y-1">
@@ -227,11 +237,16 @@
 
           <!-- Question 3 -->
           <div class="border-t border-slate-100 pt-5">
-            <div class="mb-2 flex justify-between items-center gap-2">
-              <p class="font-semibold text-xs sm:text-sm text-slate-900">Question 3:</p>
-              <span class="text-xs text-slate-500">10 points</span>
+            <div class="mb-2 flex justify-between items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <p class="font-semibold text-sm sm:text-base text-slate-900">Question 3:</p>
+                <button type="button" onclick="jumpToTrajectory(2)" class="btn btn-xs rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-0.5 inline-flex items-center gap-1 transition">
+                  <i class="ri-arrow-up-line text-xs"></i> Trajectory 3
+                </button>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">10 points</span>
             </div>
-            <p class="text-slate-800 text-xs sm:text-[15px] leading-relaxed mb-3">
+            <p class="text-slate-800 text-[14.5px] sm:text-[15px] leading-relaxed mb-3">
               In Trajectory 3, the movie agent searches for the soundtrack composer clue using an extraction hook equipped with an LLM judge. The judge evaluates the retrieved review article strictly against the isolated search query, stripping out a critical disclaimer about an electronic synthesizer score and leaving only the isolated sentence about a jazz trumpeter. As a result, the agent forms false confidence and selects the wrong candidate. Which technical limitation of extraction does this scenario demonstrate?
             </p>
             <ol class="space-y-1">
@@ -299,11 +314,22 @@
   </footer>
 
   <script>
+    function jumpToTrajectory(idx) {
+      const iframe = document.getElementById('explorer-iframe');
+      if (iframe) {
+        iframe.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (iframe.contentWindow) {
+          iframe.contentWindow.postMessage({ type: 'switchTrajectory', index: idx }, '*');
+        }
+      }
+    }
+
     window.addEventListener('message', function(event) {
       if (event.data && event.data.type === 'setHeight' && typeof event.data.height === 'number') {
         const iframe = document.getElementById('explorer-iframe');
         if (iframe) {
-          const newH = Math.max(540, event.data.height);
+          const maxAllowed = Math.min(640, Math.round(window.innerHeight * 0.85));
+          const newH = Math.min(maxAllowed, Math.max(520, event.data.height));
           iframe.style.height = newH + 'px';
         }
       }
