@@ -39,6 +39,13 @@
       margin: 0;
       padding: 0;
     }
+    .traj-card {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .traj-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col w-full max-w-full">
@@ -57,48 +64,296 @@
   </header>
 
   <!-- Hero Section -->
-  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8">
-    <div class="mb-8">
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
+    <div>
       <h1 class="text-2xl sm:text-3xl font-bold font-headline text-slate-900 tracking-tight mb-2">
         Context Engineering Trajectory Visualizations
       </h1>
       <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-3xl">
-        Select a trajectory below to step through agent working contexts, inspect token progression, and diagnose failure modes.
+        Select a trajectory visualizer below to step through agent working contexts, inspect token progression, observe tool executions, and diagnose failure modes.
       </p>
     </div>
 
-    <!-- Trajectories Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-      <!-- Module 1 Trajectory 1 Card -->
-      <div class="card bg-base-100 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-        <div class="card-body p-5 sm:p-6">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
-              Module 1 &middot; Trajectory 1
-            </span>
-            <span class="text-xs text-slate-500 font-medium">12 Steps &middot; 97.8K Tokens</span>
+    <!-- MODULE 1 SECTION -->
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+        <i class="ri-database-2-line text-rose-600 text-lg"></i>
+        <h2 class="text-base sm:text-lg font-bold font-headline text-slate-800">
+          Module 1
+        </h2>
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 ml-auto">
+          2 Trajectories
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Module 1 Trajectory 1 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+                Module 1 &middot; Trajectory 1
+              </span>
+              <span class="text-xs text-slate-500 font-medium">12 Steps &middot; 97.8K Tokens</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 1: Context Poisoning
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: Footwear Retailer Customer Service. Step through query-based policy retrieval, ingestion of an unindexed legacy manual lacking expiration tags, and erroneous customer denial based on outdated documentation.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Context Poisoning</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Outdated Manuals</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Stale Data Ingestion</span>
+            </div>
           </div>
-          <h2 class="text-lg font-bold text-slate-900 mb-1.5">
-            Trajectory 1: Context Poisoning
-          </h2>
-          <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
-            Case Study: Footwear Retailer Customer Service Exchange. Step through query-based policy retrieval, ingestion of an unindexed legacy manual lacking expiration tags, and erroneous customer denial based on outdated documentation.
-          </p>
-          <div class="flex flex-wrap items-center gap-2 mb-5">
-            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Context Poisoning</span>
-            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Outdated Manuals</span>
-            <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Stale Data Ingestion</span>
-          </div>
-          <div class="card-actions justify-end items-center pt-3 border-t border-slate-100">
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
             <a href="Trajectories/Module_1_Trajectory_1.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
               Launch Trajectory 1 &rarr;
             </a>
           </div>
         </div>
-      </div>
 
-    </div>
+        <!-- Module 1 Trajectory 2 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+                Module 1 &middot; Trajectory 2
+              </span>
+              <span class="text-xs text-slate-500 font-medium">12 Steps &middot; 128K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 2: Rapid Context Window Saturation
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: Footwear Retailer Customer Service. Step through multi-step order lookups, compounding unpartitioned warehouse manifests (+38K) and raw transit telemetry (+81.5K), triggering a hard context_length_exceeded termination.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Context Saturation</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Tool Payload Bloat</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Token Limit Breach</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_1_Trajectory_2.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 2 &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 2 SECTION -->
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+        <i class="ri-search-eye-line text-emerald-600 text-lg"></i>
+        <h2 class="text-base sm:text-lg font-bold font-headline text-slate-800">
+          Module 2
+        </h2>
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 ml-auto">
+          2 Trajectories
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Module 2 Trajectory 1 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Module 2 &middot; Trajectory 1
+              </span>
+              <span class="text-xs text-slate-500 font-medium">10 Steps &middot; 32.8K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 1: Unrecovered Search Strategy Mismatches
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: FreshCart Coding Agent. Step through mismatched semantic search for exact configuration identifiers (LOCK_RETRY_MAX_ATTEMPTS), flawed keyword search on prose policies, and hallucinated policy absence.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Search Strategy</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Exact Identifiers</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Lexical vs Semantic</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_2_Trajectory_1.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 1 &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 2 Trajectory 2 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Module 2 &middot; Trajectory 2
+              </span>
+              <span class="text-xs text-slate-500 font-medium">7 Steps &middot; 32.8K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 2: Severed Structural Boundaries
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: FreshCart Coding Agent. Step through naive fixed-character splitting that abruptly truncates the InventoryItem class model, causing the agent to falsely conclude temperature_zone validation does not exist.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Naive Chunking</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Syntax Boundaries</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Code Truncation</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_2_Trajectory_2.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 2 &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 3 SECTION -->
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+        <i class="ri-archive-stack-line text-purple-600 text-lg"></i>
+        <h2 class="text-base sm:text-lg font-bold font-headline text-slate-800">
+          Module 3
+        </h2>
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 ml-auto">
+          2 Trajectories
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Module 3 Trajectory 1 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                Module 3 &middot; Trajectory 1
+              </span>
+              <span class="text-xs text-slate-500 font-medium">14 Steps &middot; 16K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 1: Progressive Degradation in Repeated Compaction
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: CineComp Research Agent. Step through periodic compaction hooks (>3,500 tokens), recursive summary-of-summaries compression, and progressive entity erasure dropping film titles and composer records.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Compaction Drift</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Periodic Hooks</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Entity Erasure</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_3_Trajectory_1.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 1 &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 3 Trajectory 2 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                Module 3 &middot; Trajectory 2
+              </span>
+              <span class="text-xs text-slate-500 font-medium">10 Steps &middot; 16K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 2: Silent Externalization (Missing Pointer)
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: CineComp Research Agent. Step through scratchpad offloading where the harness omits the document identifier, blocking external file retrieval and forcing an unnecessary redundant database query.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Missing Pointer</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Scratchpad Offloading</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Redundant Recovery</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_3_Trajectory_2.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 2 &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 4 SECTION -->
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+        <i class="ri-brain-line text-sky-600 text-lg"></i>
+        <h2 class="text-base sm:text-lg font-bold font-headline text-slate-800">
+          Module 4
+        </h2>
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 ml-auto">
+          2 Trajectories
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Module 4 Trajectory 1 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
+                Module 4 &middot; Trajectory 1
+              </span>
+              <span class="text-xs text-slate-500 font-medium">7 Steps &middot; 128K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 1: Memory Writing and Semantic Duplication
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: Doctor’s Appointment Assistant. Step through background memory extraction and offline reconciliation where semantic threshold mismatch fails to detect equivalence between 'bookmark' and 'priority_flag', committing duplicate rules.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Memory Hooks</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Semantic Deduplication</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Vector Store</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_4_Trajectory_1.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 1 &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 4 Trajectory 2 Card -->
+        <div class="card traj-card bg-base-100 border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div class="card-body p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
+                Module 4 &middot; Trajectory 2
+              </span>
+              <span class="text-xs text-slate-500 font-medium">13 Steps &middot; 128K Budget</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-1.5">
+              Trajectory 2: Flat-File Search and Forgotten Rules
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+              Case Study: Doctor’s Appointment Assistant. Step through stateless session re-initialization and flat-file lexical search failure (searching 'Friday' when historical rule stated 'end-of-week'), causing unnecessary user friction.
+            </p>
+            <div class="flex flex-wrap items-center gap-1.5 mb-4">
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Stateless Memory</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Lexical Limitations</span>
+              <span class="badge badge-sm badge-ghost text-slate-600 text-[11px]">Semantic Drift</span>
+            </div>
+          </div>
+          <div class="card-actions justify-end items-center px-5 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+            <a href="Trajectories/Module_4_Trajectory_2.html" class="btn btn-sm bg-[#F65B66] hover:bg-[#E04854] text-white border-none px-4">
+              Launch Trajectory 2 &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer -->
