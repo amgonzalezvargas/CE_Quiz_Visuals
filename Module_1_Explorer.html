@@ -194,7 +194,7 @@
       background: var(--base-200);
       border-radius: var(--radius-full);
       border: 1px solid var(--base-300);
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
     .m1gp-fill {
@@ -235,6 +235,16 @@
       width: 2px;
       background: var(--primary);
       z-index: 2;
+    }
+
+        .m1gp-pct-label {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      font-family: var(--mono);
     }
 
     .m1gp-ecl-label {
@@ -622,14 +632,15 @@
       <!-- Token Meter Gauge -->
       <div class="m1gp-meter-wrap" id="meterWrap">
         <div class="m1gp-meter-labels">
-          <span class="m1gp-meter-title">Context Window Usage</span>
+          <span class="m1gp-meter-title">Context Usage</span>
           <span class="m1gp-meter-stats">
-            <strong id="tokenTotalText">550</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.4%</span>
+            <strong id="tokenTotalText">550</strong> <span class="text-slate-400">/ 128K</span>
           </span>
         </div>
         <div class="m1gp-track">
           <div class="m1gp-fill" id="trackFill"></div>
           <div class="m1gp-ecl-marker"></div>
+          <div class="m1gp-pct-label" id="tokenPctText">0.4%</div>
           <div class="m1gp-ecl-label">Effective context length (80%)</div>
         </div>
       </div>
@@ -680,47 +691,47 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'SHARED FOUNDATION', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Role & Rules', tokens: 550,
+        { phase: 'SHARED FOUNDATION', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Role & Rules', tokens: 550,
           content: `You are an AI customer service agent for an online footwear retailer.\n\nRules:\n  - Verify order details before taking actions\n  - Consult policy documentation for exchange eligibility\n  - Assist customers with size swaps and returns`,
           caption: 'System prompt establishes agent persona and operational rules.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Exchange request', tokens: 140,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Exchange request', tokens: 140,
           content: `Customer: "Hi! I ordered trail running shoes in Size 8 (Order #4412, delivered Oct 1st), but they are too tight. Can I swap them for a Size 8.5?"`,
           caption: 'Customer contacts customer support asking to exchange Size 8 for Size 8.5.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: JSON schemas', tokens: 480,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'JSON schemas', tokens: 480,
           content: `LookupOrder(order_id: string)\n  "Retrieve order details and delivery date."\n\nSearchPolicies(file_name: string)\n  "Query company policy documentation repository."\n\nExchangeItemSize(order_id: string, target_size: string)\n  "Swap an item for another size."`,
           caption: 'Tools provided to the agent harness in the context window.' },
 
-        { phase: 'SHARED STARTING WORKFLOW', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: LookupOrder', tokens: 1200,
+        { phase: 'SHARED STARTING WORKFLOW', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'LookupOrder', tokens: 1200,
           content: `[LookupOrder] order_id: "4412"\n{\n  "delivery_date": "2025-10-01",\n  "item": "Trail Runner Pro",\n  "size": "8.0",\n  "status": "DELIVERED"\n}`,
           caption: 'Harness executes LookupOrder: Confirms delivery on Oct 1st.' },
 
         { divider: true, danger: true, text: 'Failure 1: Context Poisoning (Outdated Document Ingested)' },
 
-        { phase: 'STEP 1 · CONTEXT POISONING', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Stale 14-Day Policy', tokens: 95000, flagText: 'POISONED',
+        { phase: 'STEP 1 · CONTEXT POISONING', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Stale 14-Day Policy', tokens: 95000, flagText: 'POISONED',
           content: `[SearchPolicies] file_name: "exchanges.txt"\n=== Legacy Policy Manual (v1.2) ===\n[... 95,000 tokens of warehouse procedures ...]\nSection 4.1: "All exchanges must be requested within 14 calendar days of delivery. Ineligible after day 14."\n(No timestamp or deprecation warning in file!)`,
           caption: 'Context Poisoning: Search tool returns outdated 14-day policy file with no timestamp!' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: False rejection from poisoned context', tokens: 1400, flagText: 'POISONED',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False rejection from poisoned context', tokens: 1400, flagText: 'POISONED',
           content: `Context: 97,370 tokens.\nDelivery date: October 1st (>14 days ago).\nPer Section 4.1 in exchanges.txt, exchange window has expired.\n\nDecision: Reject customer's exchange request.`,
           caption: 'Model reasons over stale context and incorrectly concludes customer is ineligible.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Assistant Response: Erroneous Denial', tokens: 180,
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Erroneous Denial', tokens: 180,
           content: `Assistant: "I looked up your order #4412. Because it was delivered on October 1st, it is past our 14-day exchange window and no longer eligible for a swap."`,
           caption: 'Customer receives a false rejection due to uncurated data store.' },
 
         { divider: true, danger: true, text: 'Failure 2: Context Clash (Contradictory Policies in Context)' },
 
-        { phase: 'STEP 2 · CONTEXT CLASH', cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Customer pushes back', tokens: 120,
+        { phase: 'STEP 2 · CONTEXT CLASH', cat: 'user', badge: 'USER PROMPT', label: 'Customer pushes back', tokens: 120,
           content: `Customer: "Wait! The card inside my shoebox says '60-Day Fit Guarantee — Free Swaps'. Why are you telling me 14 days?"`,
           caption: 'Customer pushes back with the printed 60-day guarantee from the product packaging.' },
 
-        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: New 60-Day Policy', tokens: 4200, flagText: 'CLASH',
+        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'New 60-Day Policy', tokens: 4200, flagText: 'CLASH',
           content: `[SearchPolicies] file_name: "policies_v2.txt"\nSection 1.0: "60-Day Fit Guarantee allows free size swaps up to 60 days post-delivery at zero charge."`,
           caption: 'Context Clash: 14-day policy and 60-day policy now both sit in context with no date hierarchy!' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Model confusion over conflicting records', tokens: 1100, flagText: 'CLASH',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Model confusion over conflicting records', tokens: 1100, flagText: 'CLASH',
           content: `Two conflicting policies exist in context:\n- exchanges.txt: "14 calendar days"\n- policies_v2.txt: "60-Day Fit Guarantee"\nNeither file indicates which document is authoritative or when it was enacted.\nModel must guess or infer which rule overrides the other.`,
           caption: 'Context Clash: Inconsistent facts collide; model is forced into guesswork.' }
       ]
@@ -731,37 +742,37 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'SHARED FOUNDATION', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Role & Rules', tokens: 550,
+        { phase: 'SHARED FOUNDATION', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Role & Rules', tokens: 550,
           content: `You are an AI customer service agent for an online footwear retailer.\n\nRules:\n  - Handle order exchanges and returns accurately\n  - Protect customer purchase value and promotional discounts`,
           caption: 'System prompt initialized.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Exchange request', tokens: 140,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Exchange request', tokens: 140,
           content: `Customer: "Hi! I ordered trail running shoes in Size 8 (Order #4412, delivered Oct 1st), but they are too tight. Can I swap them for a Size 8.5?"`,
           caption: 'Customer initiates exchange request.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: Overlapping descriptions', tokens: 520,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Overlapping descriptions', tokens: 520,
           content: `LookupOrder(order_id: string)\n  "Look up order information and delivery date."\n\nExchangeItemSize(order_id: string, target_size: string)\n  "Swap an item for another size."\n\nReturnForStoreCredit(order_id: string)\n  "Process return or cancellation and issue store credit for order."`,
           caption: 'Context Confusion Root Cause: Overlapping, ambiguous tool docstrings.' },
 
-        { cat: 'memory', badge: 'MEMORY', label: 'Memory: Price history', tokens: 420,
+        { cat: 'memory', badge: 'MEMORY', label: 'Price history', tokens: 420,
           content: `Customer: Account #89201\nOrder #4412 promo price: $120.00\nCurrent Trail Runner Pro retail price: $160.00 (+$40 price gap!)`,
           caption: 'Shoes increased by $40: Store credit will leave the customer short of re-ordering!' },
 
-        { phase: 'STEP 1 · POLICY LOOKUP SUCCEEDS', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Verified 60-Day Policy', tokens: 1800, flagText: 'ELIGIBLE',
+        { phase: 'STEP 1 · POLICY LOOKUP SUCCEEDS', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Verified 60-Day Policy', tokens: 1800, flagText: 'ELIGIBLE',
           content: `[SearchPolicies] active_policy: "policies_current.txt"\n"Section 1.0: 60-Day Fit Guarantee permits free size swaps up to 60 days post-delivery."\nStatus: ELIGIBLE.`,
           caption: 'Policy check succeeds! Customer is confirmed eligible for a free swap to Size 8.5.' },
 
         { divider: true, danger: true, text: 'Imprecise phrasing meets ambiguous tool definitions' },
 
-        { phase: 'STEP 2 · IMPRECISE PHRASING', cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Colloquial phrasing', tokens: 90,
+        { phase: 'STEP 2 · IMPRECISE PHRASING', cat: 'user', badge: 'USER PROMPT', label: 'Colloquial phrasing', tokens: 90,
           content: `Customer: "Great, I'm impatient for my run! Please just cancel or return the Size 8 order so I can swap for the Size 8.5 quickly!"`,
           caption: 'Customer uses colloquial words "cancel or return" alongside "swap".' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Context Confusion', tokens: 1250, flagText: 'CONFUSION',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Context Confusion', tokens: 1250, flagText: 'CONFUSION',
           content: `Customer said: "cancel or return the Size 8 order".\nComparing tool definitions:\n- ExchangeItemSize: "Swap an item for another size"\n- ReturnForStoreCredit: "Process return or cancellation and issue store credit for order"\nThe word 'cancel/return' strongly aligns with ReturnForStoreCredit.\nSelecting ReturnForStoreCredit tool.`,
           caption: 'Context Confusion: Ambiguous tool descriptions trick the model into picking the cancellation tool!' },
 
-        { phase: 'STEP 3 · CATASTROPHIC ACTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: ReturnForStoreCredit', tokens: 750, flagText: 'WRONG ACTION',
+        { phase: 'STEP 3 · CATASTROPHIC ACTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'ReturnForStoreCredit', tokens: 750, flagText: 'WRONG ACTION',
           content: `[ReturnForStoreCredit] order_id: "4412"\nResult: Order cancelled. $120.00 store credit issued to customer.\n\nCATASTROPHE:\n- Shoes now cost $160.00.\n- Customer loses shoes and is $40.00 short of re-ordering the Size 8.5!\n- Intended exchange completely failed.`,
           caption: 'Catastrophic outcome: Customer loses shoes and is $40 short due to action selection failure.' }
       ]
@@ -772,25 +783,25 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'SHARED FOUNDATION', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Customer Service Agent', tokens: 550,
+        { phase: 'SHARED FOUNDATION', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Customer Service Agent', tokens: 550,
           content: `You are an AI customer service agent for an online footwear retailer.\n\nTools:\n  - LookupOrder\n  - ExchangeItemSize\n  - WebSearch (for athletic events and race inquiries)`,
           caption: 'Harness configured with general search and order tools.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Exchange request', tokens: 140,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Exchange request', tokens: 140,
           content: `Customer: "Hi! I ordered trail running shoes in Size 8 (Order #4412, delivered Oct 1st), but they are too tight. Can I swap them for a Size 8.5?"`,
           caption: 'Customer initiates exchange request with Order #4412.' },
 
-        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: LookupOrder', tokens: 1200,
+        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'LookupOrder', tokens: 1200,
           content: `[LookupOrder] order_id: "4412", delivery_date: "2025-10-01", item: "Trail Runner Pro"`,
           caption: 'Order details verified.' },
 
         { divider: true, danger: true, text: 'Failure 1: Context Distraction (Raw Web Dump)' },
 
-        { phase: 'STEP 1 · OFF-TOPIC QUESTION', cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Side question', tokens: 110,
+        { phase: 'STEP 1 · OFF-TOPIC QUESTION', cat: 'user', badge: 'USER PROMPT', label: 'Side question', tokens: 110,
           content: `Customer: "Also, while you're checking, what are the Boston Marathon qualifying standards and event cancellation policies for age 35?"`,
           caption: 'Customer asks an off-topic side question during the exchange.' },
 
-        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Raw WebSearch HTML', tokens: 14000, flagText: 'DISTRACTION',
+        { cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Raw WebSearch HTML', tokens: 14000, flagText: 'DISTRACTION',
           content: `[WebSearch] query: "Boston Marathon qualifying standards age 35"\n<!DOCTYPE html><html><head><style>/* ads */</style>[... 14,000 tokens of raw HTML, tracking pixels, ads, navigation bars, and marathon refund policies ...]</head><body><div>Qualifying standard: 3:35:00</div></body></html>`,
           caption: 'Context Distraction: Raw uncleaned HTML injects 14,000 tokens of irrelevant noise!' },
 
@@ -800,15 +811,15 @@
           content: `[Over multiple subsequent conversational turns discussing training schedules, socks, and shipping options, context expands to 110,000 tokens]\n[Total Context Usage: 110,000 / 128,000 tokens (85.9%)]\n[Crossed Effective Context Length (ECL) threshold of 80% (102.4K)]`,
           caption: 'Context fills to 110,000 tokens, crossing the Effective Context Length!' },
 
-        { phase: 'STEP 3 · FINALIZING THE SWAP', cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Finalize swap', tokens: 80,
+        { phase: 'STEP 3 · FINALIZING THE SWAP', cat: 'user', badge: 'USER PROMPT', label: 'Finalize swap', tokens: 80,
           content: `Customer: "Awesome. Now let's finalize the Size 8.5 shoe swap!"`,
           caption: 'Customer asks the agent to finish the original swap.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Memory loss past ECL', tokens: 1500, flagText: 'MEMORY ROT',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Memory loss past ECL', tokens: 1500, flagText: 'MEMORY ROT',
           content: `Context: 111,580 tokens (past Effective Context Length).\nAttention mechanism degraded across massive web HTML and long turns.\nSearching context for order number... Unable to locate early order details buried in the middle.\n\nDecision: Ask customer for the order number again.`,
           caption: 'Context Rot: Attention degradation causes the agent to forget Order #4412 completely!' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Assistant Response: Forgotten Order', tokens: 220,
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Forgotten Order', tokens: 220,
           content: `Assistant: "I'd be glad to process your Size 8.5 swap! Could you please remind me of your order number and purchase date so I can get started?"`,
           caption: 'Severe friction: Customer must re-provide details already stated at the start of the chat.' }
       ]

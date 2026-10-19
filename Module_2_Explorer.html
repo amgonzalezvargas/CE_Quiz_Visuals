@@ -197,7 +197,7 @@
       background: var(--base-200);
       border-radius: var(--radius-full);
       border: 1px solid var(--base-300);
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
     .m1gp-fill {
@@ -238,6 +238,16 @@
       width: 2px;
       background: var(--primary);
       z-index: 2;
+    }
+
+        .m1gp-pct-label {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      font-family: var(--mono);
     }
 
     .m1gp-ecl-label {
@@ -639,14 +649,15 @@
       <!-- Token Meter Gauge -->
       <div class="m1gp-meter-wrap" id="meterWrap">
         <div class="m1gp-meter-labels">
-          <span class="m1gp-meter-title">Context Window Usage</span>
+          <span class="m1gp-meter-title">Context Usage</span>
           <span class="m1gp-meter-stats">
-            <strong id="tokenTotalText">620</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.5%</span>
+            <strong id="tokenTotalText">620</strong> <span class="text-slate-400">/ 128K</span>
           </span>
         </div>
         <div class="m1gp-track">
           <div class="m1gp-fill" id="trackFill"></div>
           <div class="m1gp-ecl-marker"></div>
+          <div class="m1gp-pct-label" id="tokenPctText">0.4%</div>
           <div class="m1gp-ecl-label">Effective context length (80%)</div>
         </div>
       </div>
@@ -699,33 +710,33 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: FreshCart Dev Agent', tokens: 620,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'FreshCart Dev Agent', tokens: 620,
           content: `You are an autonomous debugging and development agent on the FreshCart core platform engineering team.\n\nRules:\n  - Answer engineering questions using your available search tools\n  - Consult policy documentation for business rules and source code for implementations\n  - Always cite source files and line numbers`,
           caption: 'Agent system prompt establishes platform role and access to codebase.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Policy inquiry', tokens: 130,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Policy inquiry', tokens: 130,
           content: `Engineer: "Where is the official business policy for handling out-of-stock dairy substitutions defined?"`,
           caption: 'The engineer explicitly requests the official business policy documentation.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: Ambiguous search tools', tokens: 580,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Ambiguous search tools', tokens: 580,
           content: `code_lexical_search(query: string)\n  "Search codebase files matching raw keyword strings."\n\npolicy_semantic_search(query: string)\n  "Query fulfillment policies and business guidelines by semantic intent."\n\ndatabase_sql_query(sql: string)\n  "Execute transactional queries against PostgreSQL."\n\nlog_regex_search(pattern: string)\n  "Search plain text runtime checkout logs."`,
           caption: 'Ambiguous or ungrounded descriptions cause the agent to confuse keyword syntax with conceptual policy.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Misjudged tool choice', tokens: 380,
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Misjudged tool choice', tokens: 380,
           content: `User wants to find where dairy substitutions are handled.\nI will search for the exact keyword "dairy substitutions" across the project files using code_lexical_search.`,
           caption: 'Agent selects lexical keyword code search rather than semantic documentation search.' },
 
         { divider: true, text: 'Tool Execution: Syntax over Semantics' },
 
-        { phase: 'STEP 1 · LEXICAL SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: code_lexical_search', tokens: 2400, flagText: 'WRONG TOOL',
+        { phase: 'STEP 1 · LEXICAL SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'code_lexical_search', tokens: 2400, flagText: 'WRONG TOOL',
           content: `[code_lexical_search] query: "dairy substitutions"\nMatches found in inventory_sync.py:\n----------------------------------------\n# inventory_sync.py:142\nif item.category == 'dairy' and item.stock <= 0:\n    # Sync loop hardcode bypass\n    skip_substitutions = True\n    logger.warning("Bypassing sync loop for dairy SKU: %s", item.sku)`,
           caption: 'Wrong Tool Selected: Returned low-level Python sync code instead of official policy docs!' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: False conclusion from code', tokens: 750, flagText: 'MISINFORMED',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False conclusion from code', tokens: 750, flagText: 'MISINFORMED',
           content: `Found matching implementation in inventory_sync.py line 142.\nThe code explicitly sets 'skip_substitutions = True' for out-of-stock dairy.\n\nConclusion: FreshCart policy hardcodes a complete ban on dairy substitutions.`,
           caption: 'Agent misinterprets low-level backend bypass code as official store business rules.' },
 
-        { phase: 'STEP 2 · ERRONEOUS REPORT', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Assistant Response: False Policy Report', tokens: 320,
+        { phase: 'STEP 2 · ERRONEOUS REPORT', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False Policy Report', tokens: 320,
           content: `Assistant: "The policy for handling out-of-stock dairy substitutions is defined in 'inventory_sync.py' at line 142. FreshCart has hardcoded substitutions to skip all dairy items automatically."`,
           caption: 'Catastrophic troubleshooting mistake: Engineer investigates code while missing the actual policy document.' }
       ]
@@ -736,33 +747,33 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: FreshCart Dev Agent', tokens: 620,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'FreshCart Dev Agent', tokens: 620,
           content: `You are an autonomous debugging agent for FreshCart.\n\nTask:\n  - Inspect database models in models.py\n  - Validate schema definitions and field types`,
           caption: 'Agent is tasked with inspecting schema fields in models.py.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Model field validation', tokens: 140,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Model field validation', tokens: 140,
           content: `Engineer: "Tell me the data format and validation rule for the aisle_id field in the InventoryItem database model."`,
           caption: 'Engineer asks for the exact validation regex of aisle_id in InventoryItem.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: Code search', tokens: 490,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Code search', tokens: 490,
           content: `code_vector_search(query: string, collection: string = "freshcart_code")\n  "Search vectorized repository chunks using dense embeddings."`,
           caption: 'Vector store contains the codebase chunks prepared by the ingestion pipeline.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Querying vector store', tokens: 360,
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Querying vector store', tokens: 360,
           content: `I need to find the InventoryItem model definition in models.py and look up the aisle_id validation rules.\nExecuting code_vector_search for "InventoryItem aisle_id Field validation".`,
           caption: 'Agent formulates semantic search query for the model definition.' },
 
         { divider: true, danger: true, text: 'Ingestion pipeline flaw: fixed-character chunking' },
 
-        { phase: 'STEP 1 · RETRIEVAL', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Severed Chunk 124', tokens: 1800, flagText: 'SEVERED CHUNK',
+        { phase: 'STEP 1 · RETRIEVAL', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Severed Chunk 124', tokens: 1800, flagText: 'SEVERED CHUNK',
           content: `[code_vector_search] Retrieved chunk 124 (Similarity: 0.88):\nFile: models.py (Lines 1-22)\n----------------------------------------\nclass InventoryItem(BaseModel):\n    """Core inventory entity tracking store-level stock."""\n    item_id: str = Field(..., description="Unique inventory UUID")\n    sku: str = Field(..., max_length=12)\n    store_id: int = Field(..., gt=0)\n    stock_count: int = Field(ge=0)\n    # [CHUNK CUT OFF AT CHARACTER 500 WITHOUT AST PARSER]`,
           caption: 'Naive fixed-character chunking severed the class definition right before the aisle_id field!' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Hallucinated absence', tokens: 640, flagText: 'FALSE NEGATIVE',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Hallucinated absence', tokens: 640, flagText: 'FALSE NEGATIVE',
           content: `Inspecting chunk 124 of models.py containing class InventoryItem.\nThe model contains item_id, sku, store_id, and stock_count.\nThere is NO aisle_id field declared in this class.\n\nConclusion: The InventoryItem model does not possess an aisle_id attribute.`,
           caption: 'Adjacent chunk 125 containing aisle_id scored 0.41 and was dropped from retrieval!' },
 
-        { phase: 'STEP 2 · MISGUIDED RESPONSE', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Assistant Response: False Schema Absence', tokens: 310,
+        { phase: 'STEP 2 · MISGUIDED RESPONSE', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False Schema Absence', tokens: 310,
           content: `Assistant: "I have examined the InventoryItem model in 'models.py'. The model does not have an 'aisle_id' field. It only declares item_id, sku, store_id, and stock_count."`,
           caption: 'Destructive outcome: Engineer wastes hours searching for nonexistent database migrations.' }
       ]
@@ -773,33 +784,33 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: FreshCart Dev Agent', tokens: 620,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'FreshCart Dev Agent', tokens: 620,
           content: `You are an autonomous database troubleshooting agent for FreshCart.\n\nTools:\n  - database_sql_query: Run SQL queries against the production replica\n  - log_regex_search: Search plain-text server logs`,
           caption: 'Agent harness configured with live database query execution.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Bug investigation', tokens: 150,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Bug investigation', tokens: 150,
           content: `Engineer: "Find all checkout records from October 14, 2026, where out-of-stock items bypassed validation."`,
           caption: 'Targeted prompt: Engineer requests transactions for a specific date (Oct 14, 2026).' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: SQL Execution', tokens: 960,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'SQL Execution', tokens: 960,
           content: `database_sql_query(sql_query: string)\n  "Executes SQL queries against Postgres replica. Returns JSON array of rows."`,
           caption: 'Tool accepts raw SQL query strings and dumps returned rows directly into context.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Unconstrained SQL planning', tokens: 390,
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Unconstrained SQL planning', tokens: 390,
           content: `I will query the checkout_records table for orders with bypassed validations.\nQuery:\nSELECT * FROM checkout_records WHERE validation_status = 'BYPASSED_OUT_OF_STOCK';`,
           caption: 'Agent fails to specify a date filter (WHERE created_at >= ...) or a LIMIT clause!' },
 
         { divider: true, danger: true, text: 'effective context length crossed' },
 
-        { phase: 'STEP 1 · UNCONSTRAINED QUERY', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: 142,000 Rows Dump', tokens: 104000, flagText: 'CONTEXT FLOOD',
+        { phase: 'STEP 1 · UNCONSTRAINED QUERY', cat: 'toutput', badge: 'TOOL OUTPUT', label: '142,000 Rows Dump', tokens: 104000, flagText: 'CONTEXT FLOOD',
           content: `[database_sql_query] Executed: SELECT * FROM checkout_records WHERE validation_status = 'BYPASSED_OUT_OF_STOCK';\n\nResult:\n[... 142,000 rows returned from January 2024 to October 2026 ...]\n[Total payload size: 104,000 tokens]\n[Row 1: 2024-01-02 ...]\n[Row 84,210: 2026-10-14 ...]\n[Row 142,000: 2026-10-17 ...]`,
           caption: 'Unfiltered SQL dump injects 104,000 tokens! Usage surges to 106,120 / 128,000 (82.9%).' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Attention degradation past ECL', tokens: 1800, flagText: 'CONTEXT ROT',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Attention degradation past ECL', tokens: 1800, flagText: 'CONTEXT ROT',
           content: `Context: 106,120 / 128,000 tokens (82.9%).\nEffective Context Length (102.4K) exceeded.\nAttention mechanism degrades over massive row deluge.\nScanning history from 2024... Unable to isolate target transactions amidst historical noise.\n\nConclusion: No checkout records bypassed validation on October 14, 2026.`,
           caption: 'Context Rot: Overwhelmed by historical rows, the agent hallucinates that no Oct 14 records exist!' },
 
-        { phase: 'STEP 2 · DEGRADED RESPONSE', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Assistant Response: False Negation', tokens: 280,
+        { phase: 'STEP 2 · DEGRADED RESPONSE', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False Negation', tokens: 280,
           content: `Assistant: "I executed the query across checkout_records. My analysis shows that no checkout transactions bypassed out-of-stock validation on October 14, 2026."`,
           caption: 'Downstream catastrophe: Real bug bypassed operations because the context window was flooded.' }
       ]

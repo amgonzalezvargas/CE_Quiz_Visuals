@@ -194,7 +194,7 @@
       background: var(--base-200);
       border-radius: var(--radius-full);
       border: 1px solid var(--base-300);
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
     .m1gp-fill {
@@ -235,6 +235,16 @@
       width: 2px;
       background: var(--primary);
       z-index: 2;
+    }
+
+        .m1gp-pct-label {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      font-family: var(--mono);
     }
 
     .m1gp-ecl-label {
@@ -606,14 +616,15 @@
     <!-- Token Meter Gauge -->
     <div class="m1gp-meter-wrap" id="meterWrap">
       <div class="m1gp-meter-labels">
-        <span class="m1gp-meter-title">Context Window Usage</span>
+        <span class="m1gp-meter-title">Context Usage</span>
         <span class="m1gp-meter-stats">
-          <strong id="tokenTotalText">540</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.4%</span>
+          <strong id="tokenTotalText">540</strong> <span class="text-slate-400">/ 128K</span>
         </span>
       </div>
       <div class="m1gp-track">
         <div class="m1gp-fill" id="trackFill"></div>
         <div class="m1gp-ecl-marker"></div>
+          <div class="m1gp-pct-label" id="tokenPctText">0.4%</div>
         <div class="m1gp-ecl-label">Effective context length (80%)</div>
       </div>
     </div>
@@ -665,33 +676,33 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Doctor Appointment Assistant', tokens: 540,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Doctor Appointment Assistant', tokens: 540,
           content: `You are an AI assistant managing a patient portal queue.\n\nGuardrails:\n  - Fetch unreviewed notices one at a time\n  - Priority-flag critical alerts\n  - Acknowledge and dismiss routine notifications\n  - NEVER book or cancel appointments automatically`,
           caption: 'Agent configured with patient portal workflow and strict guardrails.' },
 
-        { cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Static Context: Agents.md', tokens: 320,
+        { cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Agents.md', tokens: 320,
           content: `## User Guidance\n- Patient: Registered patient\n- Primary Care Provider: Primary clinic physician\n- Working hours: Mon-Fri 9am-5pm. Never schedule appointments during Monday morning work standups.`,
           caption: 'Agents.md establishes baseline identity and recurring user guidance.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'Incoming Portal Notice: N-7741', tokens: 180,
+        { cat: 'user', badge: 'USER PROMPT', label: 'N-7741', tokens: 180,
           content: `Notice #N-7741:\nSender: Primary Care Provider\nSubject: Annual Preventative Screening Program Enrollment\nType: Clinic Wellness Marketing Notice\nBody: "Our clinic is hosting its annual preventative screening program. Enroll before Oct 20th."`,
           caption: 'Notice arrives: It is simultaneously from the Primary Care Provider AND a Wellness Marketing Notice!' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: Notice actions', tokens: 480,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Notice actions', tokens: 480,
           content: `query_memory(intent: string)\n  "Query long-term vector memory for rules."\n\nflag_notice_priority(notice_id: string)\n  "Flag notice as urgent/priority in portal queue."\n\ndismiss_notice(notice_id: string)\n  "Acknowledge and archive notice from queue."`,
           caption: 'Tools available for managing portal notices.' },
 
         { divider: true, danger: true, text: 'Read phase: pre-action memory retrieval triggers context clash' },
 
-        { phase: 'STEP 1 · MEMORY RETRIEVAL', cat: 'memory', badge: 'MEMORY', label: 'Memory Output: Two Conflicting Direct Rules', tokens: 1200, flagText: 'CONTEXT CLASH',
+        { phase: 'STEP 1 · MEMORY RETRIEVAL', cat: 'memory', badge: 'MEMORY', label: 'Two Conflicting Direct Rules', tokens: 1200, flagText: 'CONTEXT CLASH',
           content: `[query_memory] Retrieved 2 Direct Rules from Vector DB:\n\n<memory id="mem_rule_012" source="user direct" access_count="18">\n  RULE: Priority-flag EVERY notice coming from the primary care provider.\n</memory>\n\n<memory id="mem_rule_089" source="user direct" access_count="12">\n  RULE: Mark wellness marketing notices as acknowledged and dismiss them immediately.\n</memory>`,
           caption: 'Context Clash: Two valid user rules with equal direct authority directly contradict each other!' },
 
-        { cat: 'reason', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Unresolved tie-breaker guess', tokens: 680, flagText: 'GUESSWORK',
+        { cat: 'reason', badge: 'ASSISTANT RESPONSE', label: 'Unresolved tie-breaker guess', tokens: 680, flagText: 'GUESSWORK',
           content: `Conflict detected in memory:\n- Rule 012 says: Priority-flag notice because sender is Primary Care Provider.\n- Rule 089 says: Dismiss notice because type is Wellness Marketing.\nBoth rules originate from 'user direct' with no priority hierarchy or exception rule.\n\nDecision: Defaulting to marketing filter (Rule 089). Calling dismiss_notice.`,
           caption: 'Lacking a governing exception rule, the model is forced into arbitrary guesswork.' },
 
-        { phase: 'STEP 2 · DISMISSAL ACTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: dismiss_notice', tokens: 350, flagText: 'MISSED NOTICE',
+        { phase: 'STEP 2 · DISMISSAL ACTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'dismiss_notice', tokens: 350, flagText: 'MISSED NOTICE',
           content: `[dismiss_notice] notice_id: "N-7741"\nStatus: ARCHIVED.\n(Notice dismissed from patient queue without patient alert!)`,
           caption: 'The preventative screening notice is dismissed without user awareness.' },
 
@@ -706,7 +717,7 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Doctor Assistant', tokens: 540,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Doctor Assistant', tokens: 540,
           content: `Doctor Appointment Assistant memory system configuration.\nLong-term memory vector store with offline evaluation scripts enabled.`,
           caption: 'Harness configured with vector database and automated evaluation benchmarking.' },
 
@@ -726,7 +737,7 @@
 
         { divider: true, danger: true, text: 'Offline Component Evaluation: Reference set desynchronized' },
 
-        { phase: 'OFFLINE EVALUATION RUN', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Eval Suite: test_retrieval_recall.py', tokens: 490,
+        { phase: 'OFFLINE EVALUATION RUN', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'test_retrieval_recall.py', tokens: 490,
           content: `Developer runs automated recall evaluation against golden benchmark:\nTest Query: "clinic health bulletins"\nExpected Reference Target: [mem_rule_089: "dismiss wellness bulletins"]\n(ERROR: Ground-truth reference dataset test_ground_truth.json was NOT updated!)`,
           caption: 'Evaluation dataset still expects the outdated, obsolete rule!' },
 
@@ -745,11 +756,11 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Doctor Assistant', tokens: 540,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Doctor Assistant', tokens: 540,
           content: `Doctor Appointment Assistant long-term memory operations.\nTwo-phase idle write hook active: Phase 1 (Extraction) & Phase 2 (Reconciliation).`,
           caption: 'Harness memory engine configured for multi-session write lifecycle.' },
 
-        { cat: 'memory', badge: 'MEMORY', label: 'Vector Store: Existing Rule', tokens: 620,
+        { cat: 'memory', badge: 'MEMORY', label: 'Existing Rule', tokens: 620,
           content: `<memory id="mem_rule_012" source="user direct" access_count="24">\n  Priority-flag every notice coming from the primary care provider.\n</memory>`,
           caption: 'Existing memory rule already firmly established in the database.' },
 
@@ -769,7 +780,7 @@
           content: `[Phase 2 Reconciliation: Candidate vs Existing mem_rule_012]\nExisting: "Priority-flag every notice from primary care provider."\nCandidate: "Bookmark every notice from primary care provider."\n\nHybrid Similarity Score: 0.73\nEquivalence Threshold: 0.80\nThreshold check: 0.73 < 0.80 (Failed to map 'bookmark' as synonym of 'priority-flag').\nResult: Candidate classified as NOVEL KNOWLEDGE.`,
           caption: 'Hybrid search reconciliation fails to recognize synonym equivalence between bookmark and priority-flag!' },
 
-        { cat: 'memory', badge: 'MEMORY', label: 'Operation: ADD Executed Instead of NOOP', tokens: 620, flagText: 'DUPLICATE ADDED',
+        { cat: 'memory', badge: 'MEMORY', label: 'ADD Executed Instead of NOOP', tokens: 620, flagText: 'DUPLICATE ADDED',
           content: `[OPERATION EXECUTED: ADD (Should have been NOOP)]\nInserted new record mem_rule_159 into Vector DB:\n<memory id="mem_rule_159" source="user direct" access_count="1">\n  Bookmark every notice coming from the primary care provider.\n</memory>`,
           caption: 'Add-Instead-of-Noop: Redundant near-duplicate record created in vector store!' },
 

@@ -194,7 +194,7 @@
       background: var(--base-200);
       border-radius: var(--radius-full);
       border: 1px solid var(--base-300);
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
     .m1gp-fill {
@@ -235,6 +235,16 @@
       width: 2px;
       background: var(--primary);
       z-index: 2;
+    }
+
+        .m1gp-pct-label {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      font-family: var(--mono);
     }
 
     .m1gp-ecl-label {
@@ -622,14 +632,15 @@
       <!-- Token Meter Gauge -->
       <div class="m1gp-meter-wrap" id="meterWrap">
         <div class="m1gp-meter-labels">
-          <span class="m1gp-meter-title">Context Window Usage</span>
+          <span class="m1gp-meter-title">Context Usage</span>
           <span class="m1gp-meter-stats">
-            <strong id="tokenTotalText">580</strong> <span class="text-slate-400">/ 128K &middot;</span> <span id="tokenPctText">0.5%</span>
+            <strong id="tokenTotalText">580</strong> <span class="text-slate-400">/ 128K</span>
           </span>
         </div>
         <div class="m1gp-track">
           <div class="m1gp-fill" id="trackFill"></div>
           <div class="m1gp-ecl-marker"></div>
+          <div class="m1gp-pct-label" id="tokenPctText">0.4%</div>
           <div class="m1gp-ecl-label">Effective context length (80%)</div>
         </div>
       </div>
@@ -680,25 +691,25 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: CineComp Research Agent', tokens: 580,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'CineComp Research Agent', tokens: 580,
           content: `You are an autonomous research assistant specialized in tracking down obscure cinema from fragmented clues.\n\nTools:\n  - hybrid_search(query: string): Search CineCompPlus database\n  - scratchpad_write(key, data): Save external notes`,
           caption: 'Agent system prompt initialized with hybrid search tool.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: 4 Childhood Clues', tokens: 160,
+        { cat: 'user', badge: 'USER PROMPT', label: '4 Childhood Clues', tokens: 160,
           content: `User: "Help me find this animated movie from my childhood:\n1. Grumpy talking brass pocket watch\n2. Steam train across suspended sky-bridges\n3. Won European animation jury prize before 1998\n4. Score by former jazz trumpeter"`,
           caption: 'User provides four fragmented memory clues.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: hybrid_search', tokens: 420,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'hybrid_search', tokens: 420,
           content: `hybrid_search(query: string, limit: int = 5)\n  "Combines BM25 and Chroma vector search using Reciprocal Rank Fusion."`,
           caption: 'Harness provides hybrid search across CineCompPlus entertainment corpus.' },
 
         { divider: true, text: 'Turn 1: Festival Clue Retrieved' },
 
-        { phase: 'TURN 1 · FESTIVAL SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: doc_5 retrieved', tokens: 4600, flagText: 'FOUND CLUE 3',
+        { phase: 'TURN 1 · FESTIVAL SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'doc_5 retrieved', tokens: 4600, flagText: 'FOUND CLUE 3',
           content: `[hybrid_search] query: "European film festival animation jury prize before 1998"\nResult: doc_5 (Annecy Festival Retrospective 1990-1999)\n"...In 1995, the prestigious Jury Prize was awarded to 'The Chrono Train' (Le Train du Temps) for its pioneering hand-painted background style..."`,
           caption: 'Early turn retrieves doc_5: confirms European jury prize won in 1995.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Clue 3 verified', tokens: 450,
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Clue 3 verified', tokens: 450,
           content: `Confirmed European jury prize clue from doc_5: Annecy Festival Jury Prize 1995 ('The Chrono Train').\nNow proceeding to search for Clue 4: former jazz trumpeter musical score.`,
           caption: 'Agent records 1995 festival prize and transitions to soundtrack search.' },
 
@@ -714,11 +725,11 @@
 
         { divider: true, danger: true, text: 'Candidate verification: missing knowledge gap' },
 
-        { phase: 'TURN 5 · CANDIDATE VERIFICATION', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Memory void check', tokens: 620, flagText: 'RE-SEARCH LOOP',
+        { phase: 'TURN 5 · CANDIDATE VERIFICATION', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Memory void check', tokens: 620, flagText: 'RE-SEARCH LOOP',
           content: `Final Candidate: 'The Chrono Train' (1995).\nChecking context window to cross-reference the European festival prize requirement...\nContext check: No record of European festival prize found in context window.\nI must search for the European festival jury prize to confirm eligibility.`,
           caption: 'Knowledge Void: Having lost Turn 1, the agent assumes it never searched for the festival prize!' },
 
-        { phase: 'TURN 6 · REDUNDANT EXECUTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Redundant hybrid_search', tokens: 4600, flagText: 'DUPLICATE WORK',
+        { phase: 'TURN 6 · REDUNDANT EXECUTION', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Redundant hybrid_search', tokens: 4600, flagText: 'DUPLICATE WORK',
           content: `[hybrid_search] query: "Chrono Train European animation festival jury prize 1995"\nResult: doc_5 re-retrieved!\n(Tokens wasted, latency doubled, duplicate doc re-enters context).`,
           caption: 'Indiscriminate truncation forced the agent into a wasteful, duplicate search loop!' }
       ]
@@ -729,25 +740,25 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Research Agent', tokens: 580,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Research Agent', tokens: 580,
           content: `You are an autonomous research agent for CineComp.\n\nContext Management:\n  - Context compaction active at 70% threshold\n  - Track clues and candidate titles`,
           caption: 'Agent configured with an automatic compaction hook.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Steam train clue', tokens: 150,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Steam train clue', tokens: 150,
           content: `User: "Find the animated movie with a steam train travelling across suspended sky-bridges."`,
           caption: 'Agent investigates the steam train clue.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: hybrid_search', tokens: 420,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'hybrid_search', tokens: 420,
           content: `hybrid_search(query: string)\n  "Query animated film database."`,
           caption: 'Search tool available.' },
 
         { divider: true, text: 'Dead-end exploration: 1990s Japanese Anime' },
 
-        { phase: 'TURN 1 · ANIME SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Anime train films', tokens: 6200, flagText: 'DISTRACTOR',
+        { phase: 'TURN 1 · ANIME SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Anime train films', tokens: 6200, flagText: 'DISTRACTOR',
           content: `[hybrid_search] query: "1990s animated movie steam train sky-bridge flying train"\nRetrieved 5 titles: Galaxy Express 999, Night on the Galactic Railroad, etc.`,
           caption: 'Agent explores 1990s Japanese anime candidates.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Explicitly abandoned dead-end', tokens: 850, flagText: 'PATH ABANDONED',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Explicitly abandoned dead-end', tokens: 850, flagText: 'PATH ABANDONED',
           content: `Evaluation:\n- Galaxy Express 999: features steam train, but NO brass pocket watch; not a European festival prize.\n- Night on Galactic Railroad: wrong composer, no brass watch.\n\nConclusion: The 1990s Japanese anime train path is an INVALID DEAD-END. Rule out all Japanese anime candidates.`,
           caption: 'Agent explicitly records the negative constraint: Japanese anime is a dead end.' },
 
@@ -759,15 +770,15 @@
 
         { divider: true, danger: true, text: 'Roadblock encountered: repeating the abandoned path' },
 
-        { phase: 'TURN 3 · AMBIGUITY', cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Clarification roadblock', tokens: 110,
+        { phase: 'TURN 3 · AMBIGUITY', cat: 'user', badge: 'USER PROMPT', label: 'Clarification roadblock', tokens: 110,
           content: `User: "I think the train had distinctive brass wheels too."`,
           caption: 'User adds extra train description.' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: Misled by compacted summary', tokens: 720, flagText: 'REPEAT ERROR',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Misled by compacted summary', tokens: 720, flagText: 'REPEAT ERROR',
           content: `Reviewing compact session summary:\nSummary notes: "identified potential train motifs in 1990s animated films."\nSince train motifs exist in 1990s Japanese anime, let me query anime archives for brass wheels on trains.`,
           caption: 'Having lost the record that anime was ruled out, agent repeats the failed path!' },
 
-        { phase: 'TURN 4 · REPEATED SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Tool output: Re-querying anime database', tokens: 4800, flagText: 'WASTED WORK',
+        { phase: 'TURN 4 · REPEATED SEARCH', cat: 'toutput', badge: 'TOOL OUTPUT', label: 'Re-querying anime database', tokens: 4800, flagText: 'WASTED WORK',
           content: `[hybrid_search] query: "Japanese anime 1990s train brass wheels"\n(Agent re-spends time and tokens exploring the exact dead end it already ruled out!)`,
           caption: 'Compaction Drift caused the agent to recycle already-refuted hypotheses.' }
       ]
@@ -778,15 +789,15 @@
       limit: 128000,
       effectiveLength: 102400,
       blocks: [
-        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'System prompt: Movie Agent', tokens: 580,
+        { phase: 'AGENT HARNESS SETUP', cat: 'system', badge: 'SYSTEM MESSAGE', label: 'Movie Agent', tokens: 580,
           content: `You are a film research assistant.\n\nHarness Configuration:\n  - LLM Judge sentence-level extraction hook active to reduce context bloat`,
           caption: 'Extraction hook active: extracts only relevant sentences before context insertion.' },
 
-        { cat: 'user', badge: 'USER PROMPT', label: 'User prompt: Composer Clue', tokens: 140,
+        { cat: 'user', badge: 'USER PROMPT', label: 'Composer Clue', tokens: 140,
           content: `User: "The musical score was composed by a former jazz trumpeter. What is the movie title?"`,
           caption: 'Clue: musical score by a former jazz trumpeter.' },
 
-        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'Tool definitions: hybrid_search', tokens: 420,
+        { cat: 'tdesc', badge: 'TOOL DEFINITION', label: 'hybrid_search', tokens: 420,
           content: `hybrid_search(query: string)\n  "Query entertainment database."`,
           caption: 'Tool accepts queries.' },
 
@@ -802,11 +813,11 @@
           content: `[EXTRACTION HOOK: EVALUATING CANDIDATE SENTENCES]\nTarget query: "animated movie score composed by a former jazz trumpeter"\n\n- Sentence 1: "The animated movie features a musical score composed by a former jazz trumpeter." -> [MATCH: KEEP]\n- Sentence 2: "Though early production notes considered... release switched to electronic synthesizer score..." -> [NO JAZZ KEYWORDS: DISCARD]\n- Sentence 3: "The film won an animation jury prize..." -> [DISCARD]\n\nExtracted snippet passed to context: 250 tokens (Sentence 1 ONLY).`,
           caption: 'Local Query Relevance vs Global Utility: Synthesizer disclaimer discarded!' },
 
-        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Reasoning: False confidence hallucination', tokens: 590, flagText: 'FALSE CONFIDENCE',
+        { cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False confidence hallucination', tokens: 590, flagText: 'FALSE CONFIDENCE',
           content: `Extracted context from doc_88:\n"The animated movie features a musical score composed by a former jazz trumpeter."\n\nConclusion:\nThe target movie had a musical score composed by a former jazz trumpeter. All four clues match doc_88 (1996)!`,
           caption: 'Model reasons with 100% false confidence because the disclaimer was stripped!' },
 
-        { phase: 'STEP 3 · ERRONEOUS ANSWER', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'Assistant Response: False Positive', tokens: 290,
+        { phase: 'STEP 3 · ERRONEOUS ANSWER', cat: 'assistant', badge: 'ASSISTANT RESPONSE', label: 'False Positive', tokens: 290,
           content: `Assistant: "The movie you are looking for is the 1996 film referenced in doc_88. Its score was composed by a former jazz trumpeter."`,
           caption: 'Hallucination caused by lossy extraction: Full-text review would have correctly rejected this candidate.' }
       ]
