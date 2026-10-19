@@ -975,13 +975,19 @@
     function scrollActiveTimelineStep() {
       setTimeout(() => {
         const tl = document.querySelector('.m1gp-tl');
-        if (tl) {
-          const selectedRow = tl.querySelector('.m1gp-row.selected');
-          if (selectedRow) {
-            selectedRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const selectedRow = tl ? tl.querySelector('.m1gp-row.selected') : null;
+        if (tl && selectedRow) {
+          const tlRect = tl.getBoundingClientRect();
+          const rowRect = selectedRow.getBoundingClientRect();
+          if (rowRect.bottom > tlRect.bottom) {
+            const delta = rowRect.bottom - tlRect.bottom + 14;
+            tl.scrollBy({ top: delta, behavior: 'smooth' });
+          } else if (rowRect.top < tlRect.top) {
+            const delta = rowRect.top - tlRect.top - 14;
+            tl.scrollBy({ top: delta, behavior: 'smooth' });
           }
         }
-      }, 40);
+      }, 50);
     }
 
     function nextStep() {

@@ -922,6 +922,24 @@
       document.getElementById('detailContent').textContent = b.content;
     }
 
+    function scrollActiveTimelineStep() {
+      setTimeout(() => {
+        const tl = document.querySelector('.m1gp-tl');
+        const selectedRow = tl ? tl.querySelector('.m1gp-row.selected') : null;
+        if (tl && selectedRow) {
+          const tlRect = tl.getBoundingClientRect();
+          const rowRect = selectedRow.getBoundingClientRect();
+          if (rowRect.bottom > tlRect.bottom) {
+            const delta = rowRect.bottom - tlRect.bottom + 14;
+            tl.scrollBy({ top: delta, behavior: 'smooth' });
+          } else if (rowRect.top < tlRect.top) {
+            const delta = rowRect.top - tlRect.top - 14;
+            tl.scrollBy({ top: delta, behavior: 'smooth' });
+          }
+        }
+      }, 50);
+    }
+
     function nextStep() {
       const trajectory = TRAJECTORIES[currentTrajectoryIdx];
       const validBlocks = trajectory.blocks.filter(b => !b.divider);
@@ -929,6 +947,7 @@
         revealedCount++;
         selectedBlockIdx = revealedCount - 1;
         renderExplorer();
+        scrollActiveTimelineStep();
       }
     }
 
@@ -936,6 +955,8 @@
       revealedCount = 1;
       selectedBlockIdx = 0;
       renderExplorer();
+      const tl = document.querySelector('.m1gp-tl');
+      if (tl) tl.scrollTop = 0;
     }
 
     function showAllSteps() {
@@ -943,6 +964,7 @@
       revealedCount = trajectory.blocks.filter(b => !b.divider).length;
       selectedBlockIdx = revealedCount - 1;
       renderExplorer();
+      scrollActiveTimelineStep();
     }
 
     function formatTok(num) {
