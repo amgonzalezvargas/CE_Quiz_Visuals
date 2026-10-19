@@ -521,27 +521,66 @@
     .m1gp-btn-next:disabled { background: var(--slate-400); cursor: default; box-shadow: none; }
 
     @media (max-width: 767px) {
-      .m1gp-header {
-        padding: 12px 14px 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .m1gp-title-box h2 { font-size: 17px; }
+      .m1gp-header { padding: 10px 12px 6px; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .m1gp-title-box h2 { font-size: 16px; }
       .m1gp-tabs { width: 100%; justify-content: flex-start; gap: 6px; }
-      .m1gp-tab { flex: 1 1 auto; justify-content: center; padding: 0 8px; font-size: 11px; height: 28px; }
-      .m1gp-meter-wrap { padding: 10px 14px 12px; }
-      .m1gp-main { flex-direction: column !important; gap: 12px !important; padding: 12px 14px 16px !important; }
-      .m1gp-tl { width: 100% !important; max-width: 100% !important; }
-      .m1gp-row { padding: 8px 10px; gap: 6px; }
-      .m1gp-detail { display: none !important; }
-      .m1gp-inline { display: block !important; }
-      .m1gp-controls-bar {
-        padding: 8px 14px;
-        gap: 8px;
-      }
+      .m1gp-tab { flex: 1 1 auto; justify-content: center; padding: 0 6px; font-size: 11px; height: 26px; }
+      .m1gp-meter-wrap { padding: 8px 12px 10px; }
+      .m1gp-controls-bar { padding: 6px 12px; gap: 8px; }
       .m1gp-stepper-actions { gap: 8px; }
-      .m1gp-btn-next { height: 36px; padding: 0 16px; font-size: 13px; }
+      .m1gp-btn-next { height: 32px; padding: 0 14px; font-size: 12px; }
+
+      .m1gp-main {
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding: 8px 12px 12px !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+      }
+      .m1gp-tl {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 45% !important;
+        min-height: 130px !important;
+        max-height: 48% !important;
+        height: auto !important;
+        overflow-y: auto !important;
+        padding-right: 4px !important;
+      }
+      .m1gp-row {
+        padding: 7px 9px;
+        gap: 6px;
+      }
+      .m1gp-row-label {
+        font-size: 12px;
+      }
+      .m1gp-detail {
+        display: flex !important;
+        width: 100% !important;
+        flex: 1 1 55% !important;
+        min-height: 160px !important;
+        max-height: 55% !important;
+        height: auto !important;
+        padding: 10px 12px !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+      }
+      .m1gp-detail-head {
+        padding-bottom: 6px !important;
+      }
+      .m1gp-detail-title {
+        font-size: 11.5px !important;
+        gap: 6px !important;
+      }
+      .m1gp-detail-content {
+        margin-top: 6px !important;
+        font-size: 11.5px !important;
+        line-height: 1.5 !important;
+        overflow-y: auto !important;
+      }
+      .m1gp-inline {
+        display: none !important;
+      }
     }
 
 
